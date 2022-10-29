@@ -60,7 +60,7 @@ public class Jdbc {
         ArrayList<String> names = new ArrayList<>();
 
         try {
-            // conn = DriverManager.getConnection(url,"myUser","myUser");
+            conn = DriverManager.getConnection(url,"myUser","myUser");
             String sql = "select * from user";
             selectPstm = conn.createStatement();
             rs = selectPstm.executeQuery(sql);
