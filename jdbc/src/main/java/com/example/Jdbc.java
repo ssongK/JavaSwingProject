@@ -8,13 +8,14 @@ public class Jdbc {
     private ResultSet rs = null;
     private PreparedStatement insertPstm = null;
     private Statement selectPstm = null;
-    private String url = "jdbc:mysql://104.154.105.208:3306/user";
+    private String url = "jdbc:mysql://user-info.cy5xlgs0kg5p.ap-northeast-2.rds.amazonaws.com:3306/user";
     
     public Jdbc(){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(url,"myUser","myUser");
             System.out.println("DB 연결 성공");
+
         } catch (SQLException e) {
             System.out.println("DB 연결 실패");
             System.err.println(e);
@@ -27,7 +28,6 @@ public class Jdbc {
     public void insert(String name){
         try {
             String sql = "insert into user(name) values (?)";
-    
             insertPstm = conn.prepareStatement(sql);
             insertPstm.setString(1, name);
             insertPstm.executeUpdate();
@@ -35,6 +35,7 @@ public class Jdbc {
         } catch (SQLException e) {
             System.out.println("중복된 이름입니다!");
             System.err.println(e);
+            return;
         } finally {
             try {
                 if (rs != null) {
