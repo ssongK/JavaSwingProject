@@ -4,10 +4,11 @@ import java.sql.*;
 
 public class Jdbc {
     private Connection conn = null;
-    private ResultSet rs = null;
     private PreparedStatement insertPstm = null;
     private PreparedStatement selectPstm = null;
     private PreparedStatement updatePstm = null;
+    private ResultSet rs = null;
+    private String[] rank = new String[3];
     private String url = "jdbc:mysql://user-info.cy5xlgs0kg5p.ap-northeast-2.rds.amazonaws.com:3306/user";
     
     // 생성자 : db와 연결하는 커넥션 객체(conn) 생성
@@ -79,7 +80,7 @@ public class Jdbc {
         } 
     }
 
-    // 1번 게임 점수 저장
+    // 게임 점수 저장
     public void saveGameScore(String gameName, int gameScore, String userName){
         try{
             String sql = "update user set "+gameName+"=(?) where name=(?)";
@@ -93,6 +94,25 @@ public class Jdbc {
             System.out.println("점수 기록 실패!");
             System.err.println(e);
         }
+    }
+
+    // 게임 랭킹 조회 : 결과는 String[]으로 리턴 -> JLabel에 setText()로 순위 기록
+    public String[] gameRank(String gameName){
+        try{
+            String sql = "select name,"+gameName+" from user order by "+gameName+" desc";
+            updatePstm = conn.prepareStatement(sql);
+            rs = updatePstm.executeQuery();
+            for(int i=0;i<3;i++){
+                if(!rs.next()) break;
+                rank[i] = "name : "+rs.getString("name")+"  score : "+rs.getInt(gameName);
+            }
+            System.out.println("점수 조회 성공!");
+        } 
+        catch (SQLException e) {
+            System.out.println("점수 조회 실패!");
+            System.err.println(e);
+        }
+        return rank;
     }
 
     // 로그아웃 버튼 누르면 모든 객체 close
@@ -117,13 +137,5 @@ public class Jdbc {
         catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        Jdbc j = new Jdbc();
-        j.login("ssongk");
-        j.saveGameScore("game3", 29, "ssongk");
-        j.saveGameScore("game2", 129, "ssongk");
-        j.logout();
     }
 }
