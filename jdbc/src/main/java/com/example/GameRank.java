@@ -13,7 +13,7 @@ public class GameRank extends JFrame {
 	JPanel pn2 = new JPanel();
 	JPanel pn3 = new JPanel();
 	JPanel pn4 = new JPanel();
-	JButton btFoot = new JButton("← 뒤로가기");
+	JButton btFoot = new JButton("닫기");
 	JButton bt1 = new JButton("랭킹 1");
 	JButton bt2 = new JButton("랭킹 2");
 	JButton bt3 = new JButton("랭킹 3");
@@ -27,7 +27,6 @@ public class GameRank extends JFrame {
 	public GameRank() {
 		
 		Container cp = getContentPane();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("★ R A N K I N G ★");
 		setResizable(false); //frame창을 사용자가 늘리고 줄이는 기능을 못하게 한것.
 		
@@ -68,22 +67,17 @@ public class GameRank extends JFrame {
 		lbNormal.setFont(new Font("나눔고딕",Font.BOLD,30));
 		lbHard.setFont(new Font("나눔고딕",Font.BOLD,30));
 		btFoot.setFont(new Font("나눔고딕",Font.BOLD,20));
-		bt1.setFont(new Font("나눔고딕",Font.BOLD,15));
-		bt2.setFont(new Font("나눔고딕",Font.BOLD,15));
-		bt3.setFont(new Font("나눔고딕",Font.BOLD,15));
-		bt4.setFont(new Font("나눔고딕",Font.BOLD,15));
+		bt1.setFont(new Font("나눔고딕",Font.BOLD,10));
+		bt2.setFont(new Font("나눔고딕",Font.BOLD,10));
+		bt3.setFont(new Font("나눔고딕",Font.BOLD,10));
+		bt4.setFont(new Font("나눔고딕",Font.BOLD,10));
 		
 		pnBase.add(pnFoot,BorderLayout.SOUTH);
 		pnFoot.setBackground(pnBaseColor);
 		pnFoot.add(btFoot);
 		btFoot.setBackground(pnBaseColor);
 		
-		JPanel pnlNorth = new JPanel(new BorderLayout());
-		JButton btnNorthEast = new JButton("NorthEast");
-		JButton btnNorthWest = new JButton("NorthWest");
-		JButton btnNorthCenter = new JButton("NorthCenter");
-		
-		
+		JPanel pnlNorth = new JPanel(new BorderLayout());	
 		
 		pnlNorth.add(pn1, BorderLayout.WEST);
 		pn1.setBackground(pnBaseColor);
@@ -113,6 +107,10 @@ public class GameRank extends JFrame {
 		setVisible(true);
 		
 		MyHandler my = new MyHandler();
+		bt1.addActionListener(my);
+		bt2.addActionListener(my);
+		bt3.addActionListener(my);
+		bt4.addActionListener(my);
 		btFoot.addActionListener(my);
 		
 }// GameRank()-----------------------------------------------------------------------
@@ -122,27 +120,43 @@ public class GameRank extends JFrame {
 	{
 		@Override
 		public void actionPerformed(ActionEvent e) { 
+			Jdbc j = new Jdbc();
+			String rank[] = new String[3];
 			Object obj = e.getSource();
-			if(obj==btFoot) {
-				setVisible(false);}
-			if(obj==bt1) {
-				setVisible(false);}
-			if(obj==bt2) {
-				setVisible(false);}
-			if(obj==bt3) {
-				setVisible(false);}
-			if(obj==bt4) {
-				setVisible(false);}
+			if(obj==btFoot) dispose();
+			if(obj==bt1){
+				rank = j.gameRank("game1");
+				lbEasy.setText("1위 : "+rank[0]);
+				lbNormal.setText("2위 : "+rank[1]);
+				lbHard.setText("3위 : "+rank[2]);
+			}
+			if(obj==bt2){
+				rank = j.gameRank("game2");
+				lbEasy.setText("1위 : "+rank[0]);
+				lbNormal.setText("2위 : "+rank[1]);
+				lbHard.setText("3위 : "+rank[2]);
+			}
+			if(obj==bt3){
+				rank = j.gameRank("game3");
+				lbEasy.setText("1위 : "+rank[0]);
+				lbNormal.setText("2위 : "+rank[1]);
+				lbHard.setText("3위 : "+rank[2]);
+			}
+			if(obj==bt4){
+				rank = j.gameRank("game4");
+				lbEasy.setText("1위 : "+rank[0]);
+				lbNormal.setText("2위 : "+rank[1]);
+				lbHard.setText("3위 : "+rank[2]);
+			}
 		}
 	}
 		
-//}//MyHandler--------------------------------------------------------------------------------------
+//MyHandler--------------------------------------------------------------------------------------
 	
 	 
 
 	public static void main(String[] args) {
 		new GameRank();
-
 	}
 
 }//GameRank---------------------------------------------------------------------------------

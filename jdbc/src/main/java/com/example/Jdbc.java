@@ -104,7 +104,7 @@ public class Jdbc {
             rs = updatePstm.executeQuery();
             for(int i=0;i<3;i++){
                 if(!rs.next()) break;
-                rank[i] = "name : "+rs.getString("name")+"  score : "+rs.getInt(gameName);
+                rank[i] = rs.getString("name")+" - "+rs.getInt(gameName);
             }
             System.out.println("점수 조회 성공!");
         } 
