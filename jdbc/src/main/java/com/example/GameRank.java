@@ -5,27 +5,35 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class GameRank extends JFrame {
-
 	JPanel pnBase = new JPanel();
 	JPanel pnHead = new JPanel();
 	JPanel pnBtn = new JPanel();
 	JPanel pnFoot = new JPanel();
-	JPanel pnnext = new JPanel();
+	JPanel pn1 = new JPanel();
+	JPanel pn2 = new JPanel();
+	JPanel pn3 = new JPanel();
+	JPanel pn4 = new JPanel();
 	JButton btFoot = new JButton("← 뒤로가기");
-	JButton btnext = new JButton("다음 ->");
-	JLabel lbHead = new JLabel("★ 랭킹 ★");
-	JLabel lbEasy = new JLabel("1위 : ",JLabel.CENTER);//여기에 1위 유저 추가
-	JLabel lbNormal = new JLabel("2위 : ",JLabel.CENTER);//여기에 2위 유저 추가
-	JLabel lbHard = new JLabel("3위 : ",JLabel.CENTER);//여기에 3위 유저 추가
+	JButton bt1 = new JButton("랭킹 1");
+	JButton bt2 = new JButton("랭킹 2");
+	JButton bt3 = new JButton("랭킹 3");
+	JButton bt4 = new JButton("랭킹 4");
+	JLabel lbHead = new JLabel("★랭킹 ★",JLabel.CENTER);
+	JLabel lbEasy = new JLabel("1위 : ",JLabel.CENTER);//여기에 1위 내용 추가
+	JLabel lbNormal = new JLabel("2위 : ",JLabel.CENTER);//여기에 2위 내용 추가
+	JLabel lbHard = new JLabel("3위 : ",JLabel.CENTER);//여기에 3위 내용 추가
+	
 	
 	public GameRank() {
 		
-		Container c = getContentPane();
-		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Container cp = getContentPane();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("★ R A N K I N G ★");
 		setResizable(false); //frame창을 사용자가 늘리고 줄이는 기능을 못하게 한것.
 		
-		c.add(pnBase);
+		cp.add(pnBase);
+		
+		
 		
 		pnBase.setSize(350, 500);
 		pnBase.setLayout(new BorderLayout(0, 40));
@@ -60,31 +68,52 @@ public class GameRank extends JFrame {
 		lbNormal.setFont(new Font("나눔고딕",Font.BOLD,30));
 		lbHard.setFont(new Font("나눔고딕",Font.BOLD,30));
 		btFoot.setFont(new Font("나눔고딕",Font.BOLD,20));
-		btnext.setFont(new Font("나눔고딕",Font.BOLD,20));
+		bt1.setFont(new Font("나눔고딕",Font.BOLD,15));
+		bt2.setFont(new Font("나눔고딕",Font.BOLD,15));
+		bt3.setFont(new Font("나눔고딕",Font.BOLD,15));
+		bt4.setFont(new Font("나눔고딕",Font.BOLD,15));
 		
-		JPanel pnlSouth = new JPanel(new BorderLayout());
-		JButton btnSouthEast = new JButton("SouthEast");
-		JButton btnSouthWest = new JButton("SouthWest");
-		
-		pnlSouth.add(pnFoot, BorderLayout.WEST);
+		pnBase.add(pnFoot,BorderLayout.SOUTH);
 		pnFoot.setBackground(pnBaseColor);
 		pnFoot.add(btFoot);
 		btFoot.setBackground(pnBaseColor);
 		
-		pnlSouth.add(pnnext, BorderLayout.EAST);
-		pnnext.setBackground(pnBaseColor);
-		pnnext.add(btnext);
-		btnext.setBackground(pnBaseColor);
+		JPanel pnlNorth = new JPanel(new BorderLayout());
+		JButton btnNorthEast = new JButton("NorthEast");
+		JButton btnNorthWest = new JButton("NorthWest");
+		JButton btnNorthCenter = new JButton("NorthCenter");
 		
-		add(pnlSouth, BorderLayout.SOUTH);
-		pnlSouth.setBackground(pnBaseColor);
+		
+		
+		pnlNorth.add(pn1, BorderLayout.WEST);
+		pn1.setBackground(pnBaseColor);
+		pn1.add(bt1);
+		bt1.setBackground(pnBaseColor);
+		
+		pnlNorth.add(pn2, BorderLayout.CENTER);
+		pn1.setBackground(pnBaseColor);
+		pn1.add(bt2);
+		bt1.setBackground(pnBaseColor);
+		
+		pnlNorth.add(pn3, BorderLayout.CENTER);
+		pn1.setBackground(pnBaseColor);
+		pn1.add(bt3);
+		bt1.setBackground(pnBaseColor);
+		
+		pnlNorth.add(pn4, BorderLayout.EAST);
+		pn1.setBackground(pnBaseColor);
+		pn1.add(bt4);
+		bt1.setBackground(pnBaseColor);
+		
+		add(pnlNorth, BorderLayout.NORTH);
+		pnlNorth.setBackground(pnBaseColor);
+		
 		
 		setBounds(750, 250, 350, 500);
 		setVisible(true);
 		
 		MyHandler my = new MyHandler();
 		btFoot.addActionListener(my);
-		btnext.addActionListener(my);
 		
 }// GameRank()-----------------------------------------------------------------------
 	
@@ -96,7 +125,13 @@ public class GameRank extends JFrame {
 			Object obj = e.getSource();
 			if(obj==btFoot) {
 				setVisible(false);}
-			if(obj==btnext) {
+			if(obj==bt1) {
+				setVisible(false);}
+			if(obj==bt2) {
+				setVisible(false);}
+			if(obj==bt3) {
+				setVisible(false);}
+			if(obj==bt4) {
 				setVisible(false);}
 		}
 	}
