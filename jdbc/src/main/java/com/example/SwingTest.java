@@ -16,7 +16,7 @@ public class SwingTest extends JFrame{
         c.add(lb);
         lb.addMouseListener(new MouseAdapter(){
             public void mousePressed(MouseEvent e){
-                new SwingTest2();
+                new Tetris();
             }
         });
 

@@ -2,7 +2,6 @@ package com.example;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 import java.awt.event.*;
 
 
@@ -48,6 +47,7 @@ public class test extends JFrame {
             setLayout(new GridLayout(2, 2, 20, 20));
             btnGm1 = new JButton("1");
             add(btnGm1);
+            btnGm1.addActionListener(new MyActionListner());
             btnGm2 = new JButton("2");
             add(btnGm2);
             btnGm3 = new JButton("3");
@@ -55,6 +55,10 @@ public class test extends JFrame {
             btnGm4 = new JButton("4");
             add(btnGm4);
         }
+        class MyActionListner implements ActionListener{
+            public void actionPerformed(ActionEvent e){
+                new Tetris();
+            }
+        }
     }
-   
 }
