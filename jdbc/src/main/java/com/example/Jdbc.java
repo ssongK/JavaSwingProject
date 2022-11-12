@@ -9,6 +9,7 @@ public class Jdbc {
     private PreparedStatement updatePstm = null;
     private ResultSet rs = null;
     private String[] rank = new String[3];
+    public int count = 0;
     private String url = "jdbc:mysql://user-info.cy5xlgs0kg5p.ap-northeast-2.rds.amazonaws.com:3306/user";
     
     // 생성자 : db와 연결하는 커넥션 객체(conn) 생성
@@ -35,6 +36,7 @@ public class Jdbc {
             insertPstm.setString(1, name);
             insertPstm.executeUpdate();
             System.out.println("가입 성공!");
+            count=2;
     
         } catch (SQLException e) {
             System.out.println("중복된 이름입니다!");
@@ -72,6 +74,7 @@ public class Jdbc {
             rs.next();
             if(rs.getString("name").equals(name)){
                 System.out.println("로그인 성공!");
+                int count=1;
             }
             else System.out.println("로그인 실패!");
         } catch (SQLException e) {
@@ -137,5 +140,6 @@ public class Jdbc {
         catch (SQLException e) {
             e.printStackTrace();
         }
+        count=3;
     }
 }
