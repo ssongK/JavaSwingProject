@@ -20,7 +20,7 @@ public class TetrisThread extends Thread{
             while(tp.dropBlock()==true){
                 try{
                     // 0.5초 쉼
-                    Thread.sleep(500);
+                    Thread.sleep(1000);
                 }
                 catch(InterruptedException ex){
                     Logger.getLogger(TetrisThread.class.getName()).log(Level.SEVERE, null, ex);

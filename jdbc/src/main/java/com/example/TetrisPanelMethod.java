@@ -14,15 +14,14 @@ public class TetrisPanelMethod extends JPanel{
 
     private TetrisBlock block;
 
-    private Color[][] settedBlock;
+    private Color[][] settedBlock = new Color[panelRow][panelCol];
     
 
     // 생성자 : panel size, bgColor 설정, createBlock 메서드 호출
-    TetrisPanelMethod(){
-        setBackground(Color.GRAY);
+    public TetrisPanelMethod(){
+        setBackground(Color.ORANGE);
         setBounds(0,50,panelWidth,panelHeight);
-
-        settedBlock = new Color[panelRow][panelCol];
+        // setSize(panelWidth,panelHeight);
 
         createBlock();
         addKeyListener(new KeyAdapter(){
@@ -44,9 +43,6 @@ public class TetrisPanelMethod extends JPanel{
                 }
             }
         });
-
-        setFocusable(true);
-        requestFocus();
     }
 
     // TetrisBlock 클래스에서 생성(모양, 크기, ColSize)
@@ -132,14 +128,18 @@ public class TetrisPanelMethod extends JPanel{
     // 블록이 시간 텀을 두며 계속 떨어짐(쓰레드에서 활용)
     // 블록이 바닥에 닿으면 dropBlock() 멈춤
     public boolean dropBlock(){
-        if(checkBottom()==true) return false;
-        
+        if(checkBottom()==true){
+            afterSetBlock();
+            clearLines();
+            return false;
+        }
+
         block.moveDown();
         repaint();
         return true;
     }
 
-    // 왼쪽 방향키로 블럭 위치 이동
+    // 아래쪽 방향키로 블럭 위치 이동
     private void moveBlockDown(){
         if(checkBottom()==true) return;
 
@@ -149,11 +149,24 @@ public class TetrisPanelMethod extends JPanel{
 
     // 블록이 바닥에 닿았는지 체크
     private boolean checkBottom(){
-        if(block.getBottom()==panelHeight/blockSize){
-            afterSetBlock();
-            return true;
+        if(block.getBottom()==panelRow) return true;
 
+        int[][] shape = block.getshape();
+        int w = block.getWidth();
+        int h = block.getHeight();
+
+        for(int col=0; col<w; col++){
+            for(int row=h-1; row>=0; row--){
+                if(shape[row][col]!=0){
+                    int x = col + block.getX();
+                    int y = row + block.getY()+1;
+                    if(y<0) break;
+                    if(settedBlock[y][x]!=null) return true;
+                    break;
+                }
+            }
         }
+
         return false;
     }
 
@@ -167,8 +180,24 @@ public class TetrisPanelMethod extends JPanel{
 
     // 왼쪽 벽에 닿았는지 체크
     private boolean checkLeft(){
-        if(block.getX()<=0)
-            return true;
+        if(block.getX()<=0) return true;
+
+        int[][] shape = block.getshape();
+        int w = block.getWidth();
+        int h = block.getHeight();
+
+        for(int row=0; row<h; row++){
+            for(int col=0; col<w; col++){
+                if(shape[row][col]!=0){
+                    int x = col + block.getX()-1;
+                    int y = row + block.getY();
+                    if(y<0) break;
+                    if(settedBlock[y][x]!=null) return true;
+                    break;
+                }
+            }
+        }
+
         return false;
     }
 
@@ -182,8 +211,24 @@ public class TetrisPanelMethod extends JPanel{
 
     // 오른쪽 벽에 닿았는지 체크
     private boolean checkRight(){
-        if(block.getX()>=(panelCol-block.getWidth()))
-            return true;
+        if(block.getX()>=(panelCol-block.getWidth())) return true;
+
+        int[][] shape = block.getshape();
+        int w = block.getWidth();
+        int h = block.getHeight();
+
+        for(int row=0; row<h; row++){
+            for(int col=w-1; col>=0; col--){
+                if(shape[row][col]!=0){
+                    int x = col + block.getX()+1;
+                    int y = row + block.getY();
+                    if(y<0) break;
+                    if(settedBlock[y][x]!=null) return true;
+                    break;
+                }
+            }
+        }
+
         return false;
     }
 
@@ -192,5 +237,29 @@ public class TetrisPanelMethod extends JPanel{
         block.rotate();
         repaint();
     }
+
+    // 다 채워지면 라인 클리어 -> 점수 부여
+    public void clearLines(){
+        boolean lineFilled;
+
+        for(int row=panelRow-1; row>=0; row--){
+            lineFilled = true;
+
+            for(int col=0; col<=panelCol-1; col++){
+                if(settedBlock[row][col]==null){
+                    lineFilled = false;
+                    break;
+                }
+            }
+
+            if(lineFilled==true){
+                for(int i=0; i<=panelCol-1; i++){
+                    settedBlock[row][i]=null;
+                }
+                repaint();
+            }
+        }
+    }
+
 }
 
