@@ -36,24 +36,31 @@ public class GameHome extends JFrame {
             
             Jdbc j = new Jdbc();
             
+            U_name = new JLabel("");
+            add(U_name);
+            
             btnLogin = new JButton(" 로그인 ");
             add(btnLogin);           
             //Login Dialog() -----------------------------------------------------------------------------------------
             btnLogin.addActionListener(new ActionListener() {
             	public void actionPerformed(ActionEvent e) {
             		String name=JOptionPane.showInputDialog(NorthPanel.this,"닉네임을 입력해주세요.");
-            		if(name!=null) {
+            		
+            		if(name==null) return;
+            		
+            		else if(name.length()<=10||name.length()>=1) {
             			if(j.login(name) == true) {
-            				U_name = new JLabel(name);
-            				U_name.setHorizontalAlignment(JLabel.LEFT);
-            				add(U_name);
+            				U_name.setText(name);
             				btnLogout.setVisible(true);
             				btnRank.setVisible(true);
             				btnLogin.setVisible(false);
             				btnSingup.setVisible(false);
             			}
-            			return; }
-            		else if(name==null) {j.login(null); return;}
+            			else if(j.login(name) == false) {
+            				JOptionPane.showMessageDialog(null,"로그인에 실패하셨습니다.","Error Message",JOptionPane.ERROR_MESSAGE);
+            			}
+            		}
+            		else {JOptionPane.showMessageDialog(null,"1~10글자의 닉네임만 가능합니다.","Error Message",JOptionPane.ERROR_MESSAGE);}
             		}
             });
             //Login InputDialog -----------------------------------------------------------------------------------------
@@ -64,9 +71,19 @@ public class GameHome extends JFrame {
             //Sing up Dialog() -----------------------------------------------------------------------------------------
             btnSingup.addActionListener(new ActionListener() {
             	public void actionPerformed(ActionEvent e) {
-            		String name=JOptionPane.showInputDialog(NorthPanel.this,"닉네임을 입력해주세요.");
-            		if(name!=null) { j.join(name); return; }
-            		else if(name==null) {j.join(null); return;}
+            		String name=JOptionPane.showInputDialog(NorthPanel.this,"가입할 닉네임을 입력해주세요.");
+            		
+            		if(name==null) return;
+            		
+            		else if(name.length()<=10||name.length()>=1) {
+            			if(j.join(name)==true) {
+            				JOptionPane.showMessageDialog(null,"회원가입에 성공하셨습니다.","Success Message",JOptionPane.OK_OPTION);
+            			}
+            			else if(j.join(name)==false) {
+            				JOptionPane.showMessageDialog(null,"중복 아이디로 회원가입에 실패하셨습니다.","Error Message",JOptionPane.ERROR_MESSAGE);
+            				}
+            			}
+            		else {JOptionPane.showMessageDialog(null,"1~10글자의 닉네임만 가능합니다.","Error Message",JOptionPane.ERROR_MESSAGE);}
             		}
             });
             //Sing up Dialog -----------------------------------------------------------------------------------------
@@ -92,11 +109,11 @@ public class GameHome extends JFrame {
             btnLogout.addActionListener(new ActionListener() {
             	public void actionPerformed(ActionEvent e) {
             		if(j.logout()==true) {
-            			U_name = null; 
-        				btnLogout.setVisible(true);
-        				btnRank.setVisible(true);
-        				btnLogin.setVisible(false);
-        				btnSingup.setVisible(false);
+            			U_name.setText("");
+        				btnLogout.setVisible(false);
+        				btnRank.setVisible(false);
+        				btnLogin.setVisible(true);
+        				btnSingup.setVisible(true);
             		}
             	}
             });
@@ -113,17 +130,17 @@ public class GameHome extends JFrame {
         public CenterPanel() {
             setLayout(new GridLayout(2, 2, 20, 20));
             
-            ImageIcon nomalGM1 = new ImageIcon("imges/apple.jpg");   // 게임 이미지 어두운 배경으로 변경예정
-            ImageIcon rolloverGM1 = new ImageIcon("imges/apple1.jpg");  // 게임 이미지 밝은 화면으로 변경 예정
+            ImageIcon nomalGM1 = new ImageIcon("jdbc/classes/com/image/apple.jpg");   // 게임 이미지 어두운 배경으로 변경예정
+            ImageIcon rolloverGM1 = new ImageIcon("jdbc/classes/com/image/apple.jpg");  // 게임 이미지 밝은 화면으로 변경 예정
             
-            ImageIcon nomalGM2 = new ImageIcon("imges/apple.jpg");
-            ImageIcon rolloverGM2 = new ImageIcon("imges/apple1.jpg");
+            ImageIcon nomalGM2 = new ImageIcon("jdbc/classes/com/image/apple.jpg");
+            ImageIcon rolloverGM2 = new ImageIcon("jdbc/classes/com/image/apple.jpg");
             
-            ImageIcon nomalGM3 = new ImageIcon("imges/apple.jpg");
-            ImageIcon rolloverGM3 = new ImageIcon("imges/apple1.jpg");
+            ImageIcon nomalGM3 = new ImageIcon("jdbc/classes/com/image/apple.jpg");
+            ImageIcon rolloverGM3 = new ImageIcon("jdbc/classes/com/image/apple.jpg");
             
-            ImageIcon nomalGM4 = new ImageIcon("imges/apple.jpg");
-            ImageIcon rolloverGM4 = new ImageIcon("imges/apple1.jpg");
+            ImageIcon nomalGM4 = new ImageIcon("jdbc/classes/com/image/apple.jpg");
+            ImageIcon rolloverGM4 = new ImageIcon("jdbc/classes/com/image/apple.jpg");
             
             btnGm1 = new JButton(nomalGM1);
             add(btnGm1);
