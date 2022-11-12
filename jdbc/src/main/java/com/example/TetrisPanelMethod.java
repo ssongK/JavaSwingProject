@@ -51,7 +51,7 @@ public class TetrisPanelMethod extends JPanel{
 
     // TetrisBlock 클래스에서 생성(모양, 크기, ColSize)
     public void createBlock(){
-        block = new TetrisBlock(new int[][]{{0,0,0,0},{0,0,0,0},{0,0,0,0},{1,1,1,1}}, Color.BLUE, panelCol);
+        block = new TetrisBlock(new int[][]{{1,0},{1,0},{1,1}}, Color.BLUE, panelCol);
     }
 
     // Tetris panel의 line 및 block 생성 메서드 호출
@@ -190,6 +190,7 @@ public class TetrisPanelMethod extends JPanel{
     // 블록 회전
     public void rotateBlock(){
         block.rotate();
+        repaint();
     }
 }
 

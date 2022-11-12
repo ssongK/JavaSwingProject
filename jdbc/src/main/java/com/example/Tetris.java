@@ -10,7 +10,7 @@ public class Tetris extends JFrame{
     private JButton restart = new JButton("restart");
     private JButton exit = new JButton("exit");
 
-    private TetrisPanel tp;
+    private TetrisPanelMethod tp;
     // 생성자 : 전체 레이아웃
     public Tetris(){
         setTitle("테트리스");
@@ -21,7 +21,7 @@ public class Tetris extends JFrame{
         setResizable(false);
         add(new Footer());
         add(new Header());
-        tp = new TetrisPanel(); // TetrisPanel 객체 생성 및 참조
+        tp = new TetrisPanelMethod(); // TetrisPanel 객체 생성 및 참조
         add(tp); // 중앙 : 테트리스에 필요한 라인 및 블록 생성(TetrisPanel 생성자 참조)
 
         setVisible(true);

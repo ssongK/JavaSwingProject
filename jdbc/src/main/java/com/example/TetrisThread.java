@@ -3,10 +3,10 @@ package com.example;
 import java.util.logging.*;
 
 public class TetrisThread extends Thread{
-    private TetrisPanel tp;
+    private TetrisPanelMethod tp;
 
     // TetrisPanel 객체 레퍼런스 저장
-    public TetrisThread(TetrisPanel tp){
+    public TetrisThread(TetrisPanelMethod tp){
         this.tp = tp;
     }
 
