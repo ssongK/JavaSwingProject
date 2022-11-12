@@ -10,43 +10,40 @@ public class Tetris extends JFrame{
     private JButton restart = new JButton("restart");
     private JButton exit = new JButton("exit");
 
-    // 생성자 : 전체적인 레이아웃
+    private TetrisPanel tp;
+    // 생성자 : 전체 레이아웃
     public Tetris(){
         setTitle("테트리스");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setContentPane(new MyTetrisPanel());
-        setLayout(new BorderLayout());
-        add(new Footer(),BorderLayout.SOUTH);
-        add(new Header(),BorderLayout.NORTH);
-        setSize(400,600);
+
+        setLayout(null);
+        setBounds(0,0,300,530);
+        setResizable(false);
+        add(new Footer());
+        add(new Header());
+        tp = new TetrisPanel(); // TetrisPanel 객체 생성 및 참조
+        add(tp); // 중앙 : 테트리스에 필요한 라인 및 블록 생성(TetrisPanel 생성자 참조)
+
         setVisible(true);
-        setFocusable(true);
-        requestFocus();
+
+        // 게임 시작
+        startGame();
     }
 
-    // 중앙 : 테트리스 게임 판 생성
-    class MyTetrisPanel extends JPanel{
-        MyTetrisPanel(){
-            setBackground(Color.DARK_GRAY);
-        }
-        public void paintComponent(Graphics g){
-            super.paintComponent(g);
-            g.setColor(Color.CYAN);
-            g.fill3DRect(100, 100, 20, 20, true);
-            g.fill3DRect(200, 200, 20, 20, true);
-            g.fill3DRect(100, 120, 20, 20, true);
-            g.fill3DRect(120, 120, 20, 20, true);
-            
-        }
+    // 쓰레드 start
+    public void startGame(){
+        new TetrisThread(tp).start();
     }
 
     // 상단 : 유저이름, 점수 등의 정보를 표시
     class Header extends JPanel{
         Header(){
-            setBackground(Color.LIGHT_GRAY);
-            setLayout(new FlowLayout());
+            setLayout(null);
+            setBounds(0,0,300,50);
             score = new JLabel("score : ");
             info = new JLabel("user name : ");
+            score.setBounds(0,100,150,50);
+            info.setBounds(0,100,150,50);
             add(info);
             add(score);
         }
@@ -56,19 +53,19 @@ public class Tetris extends JFrame{
     class Footer extends JPanel{
         Footer(){
             setBackground(Color.LIGHT_GRAY);
-            restart.setLocation(450,700);
-            exit.setLocation(500,700);
+            setLayout(null);
+            setBounds(0,450,300,50);
             add(restart);
             add(exit);
 
             // 테트리스 게임 다시 시작
             restart.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
-                    dispose();
+                    startGame();
                 }
             });
 
-            // 테트리스 프레임 종료
+            // 테트리스 프레임 종료(게임이 끝나기 전 종료는 점수 저장 안 함)
             exit.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     dispose();
