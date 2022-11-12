@@ -9,7 +9,6 @@ public class Jdbc {
     private PreparedStatement updatePstm = null;
     private ResultSet rs = null;
     private String[] rank = new String[3];
-    public int count = 0;
     private String url = "jdbc:mysql://user-info.cy5xlgs0kg5p.ap-northeast-2.rds.amazonaws.com:3306/user";
     
     // 생성자 : db와 연결하는 커넥션 객체(conn) 생성
@@ -29,19 +28,18 @@ public class Jdbc {
     }
     
     // 회원가입 : 사용자의 입력 값(name)을 db의 name 컬럼에 저장
-    public void join(String name){
+    public boolean join(String name){
         try {
             String sql = "insert into user(name) values (?)";
             insertPstm = conn.prepareStatement(sql);
             insertPstm.setString(1, name);
             insertPstm.executeUpdate();
             System.out.println("가입 성공!");
-            count=2;
     
         } catch (SQLException e) {
             System.out.println("중복된 이름입니다!");
             System.err.println(e);
-            return;
+            return false;
         } 
         finally {
             try {
@@ -61,10 +59,11 @@ public class Jdbc {
                 e.printStackTrace();
             }
         }
+        return true;
     }
 
     // 로그인 : 입력한 이름(name)이 db에 있는지 확인
-    public void login(String name){
+    public boolean login(String name){
         try {
             conn = DriverManager.getConnection(url,"myUser","myUser");
             String sql = "select name from user where name=(?)";
@@ -74,13 +73,17 @@ public class Jdbc {
             rs.next();
             if(rs.getString("name").equals(name)){
                 System.out.println("로그인 성공!");
-                int count=1;
             }
-            else System.out.println("로그인 실패!");
+            else{
+                System.out.println("로그인 실패!");
+                return false;
+            }
         } catch (SQLException e) {
             System.out.println("로그인 쿼리 실행 실패!");
             System.err.println(e);
-        } 
+            return false;
+        }
+        return true;
     }
 
     // 게임 점수 저장
@@ -119,7 +122,7 @@ public class Jdbc {
     }
 
     // 로그아웃 버튼 누르면 모든 객체 close
-    public void logout(){
+    public boolean logout(){
         try {
             if (rs != null) 
                 rs.close();
@@ -139,7 +142,8 @@ public class Jdbc {
         }
         catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        count=3;
+        return true;
     }
 }
