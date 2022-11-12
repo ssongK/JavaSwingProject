@@ -5,24 +5,26 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Tetris extends JFrame{
-    private JLabel score = new JLabel("score : ");
-    private JLabel info = new JLabel("user name : ");
+    private JLabel score = new JLabel("score : "); // 점수 기록
+    private JLabel user = new JLabel("user name : "); // 유저 네임을 받아와서 기록
     private JButton restart = new JButton("restart");
     private JButton exit = new JButton("exit");
 
     private TetrisPanelMethod tp;
 
-    // 생성자 : 전체 레이아웃
+    // 생성자 : 전체 레이아웃 생성
     public Tetris(){
         setTitle("테트리스");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         setBackground(Color.ORANGE);
         setLayout(null);
-        // setResizable(false);
+        setResizable(false);
         setBounds(0,0,300,530);
 
         add(new Header());
+        user.setText(user.getText()+"name");
+        score.setText(score.getText()+"0");
 
         tp = new TetrisPanelMethod(); // TetrisPanelMethod 객체 생성 및 참조
         add(tp); // 중앙 : 테트리스에 필요한 라인 및 블록 생성(TetrisPanel 생성자 참조)
@@ -47,10 +49,13 @@ public class Tetris extends JFrame{
     // 상단 : 유저이름, 점수 등의 정보를 표시
     class Header extends JPanel{
         public Header(){
-            setBackground(Color.MAGENTA);
+            setBackground(Color.LIGHT_GRAY);
+            setLayout(new GridLayout(1,2));
             setBounds(0,0,300,50);
-            add(info);
+            add(user);
+            user.setHorizontalAlignment(JLabel.CENTER);
             add(score);
+            score.setHorizontalAlignment(JLabel.CENTER);
         }
     }
 
