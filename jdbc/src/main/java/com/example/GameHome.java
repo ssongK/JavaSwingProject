@@ -48,7 +48,7 @@ public class GameHome extends JFrame {
             		
             		if(name==null) return;
             		
-            		else if(name.length()<=10||name.length()>=1) {
+            		else if(name.length()<=10&&name.length()>=1) {
             			if(j.login(name) == true) {
             				U_name.setText(name);
             				btnLogout.setVisible(true);
@@ -75,7 +75,7 @@ public class GameHome extends JFrame {
             		
             		if(name==null) return;
             		
-            		else if(name.length()<=10||name.length()>=1) {
+            		else if(name.length()<=10&&name.length()>=1) {
             			if(j.join(name)==true) {
             				JOptionPane.showMessageDialog(null,"회원가입에 성공하셨습니다.","Success Message",JOptionPane.OK_OPTION);
             			}
