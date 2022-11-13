@@ -13,15 +13,17 @@ public class TetrisPanelMethod extends JPanel{
     private int panelCol = panelWidth/blockSize; // 12
 
     private TetrisBlock block;
-
     private Color[][] settedBlock = new Color[panelRow][panelCol];
-    
+    private JLabel scoreBoard;
+    private int score;
 
     // 생성자 : panel size, bgColor 설정, createBlock 메서드 호출
-    public TetrisPanelMethod(){
+    public TetrisPanelMethod(JLabel scoreBoard){
+        this.scoreBoard = scoreBoard;
+        this.score = 0;
+
         setBackground(Color.ORANGE);
         setBounds(0,50,panelWidth,panelHeight);
-        // setSize(panelWidth,panelHeight);
 
         createBlock();
         addKeyListener(new KeyAdapter(){
@@ -98,6 +100,7 @@ public class TetrisPanelMethod extends JPanel{
         int offsetY = block.getY();
         Color color = block.getColor();
 
+        if(checkGameOver()) return;
         for(int row=0;row<h;row++){
             for(int col=0;col<w;col++){
                 if(shape[row][col]==1){
@@ -128,7 +131,7 @@ public class TetrisPanelMethod extends JPanel{
     // 블록이 시간 텀을 두며 계속 떨어짐(쓰레드에서 활용)
     // 블록이 바닥에 닿으면 dropBlock() 멈춤
     public boolean dropBlock(){
-        if(checkBottom()==true){
+        if(checkBottom()){
             afterSetBlock();
             clearLines();
             return false;
@@ -141,7 +144,7 @@ public class TetrisPanelMethod extends JPanel{
 
     // 아래쪽 방향키로 블럭 위치 이동
     private void moveBlockDown(){
-        if(checkBottom()==true) return;
+        if(checkBottom()) return;
 
         block.moveDown();
         repaint();
@@ -252,14 +255,28 @@ public class TetrisPanelMethod extends JPanel{
                 }
             }
 
-            if(lineFilled==true){
+            if(lineFilled){
+                score += 100;
                 for(int i=0; i<=panelCol-1; i++){
                     settedBlock[row][i]=null;
                 }
+                for(int r=row; r>0; r--){
+                    for(int col=0; col<=panelCol-1; col++){
+                        settedBlock[r][col] = settedBlock[r-1][col];
+                    }
+                }
                 repaint();
+                scoreBoard.setText("score : "+score);;
+                row++;
             }
         }
     }
 
+    // 블록이 천장에 닿았는지 체크 -> 닿으면 게임 종료
+    public boolean checkGameOver(){
+        if(block.getY()<0)
+            return true;
+        return false;
+    }
 }
 

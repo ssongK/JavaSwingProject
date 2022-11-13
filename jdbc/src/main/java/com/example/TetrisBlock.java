@@ -14,7 +14,7 @@ public class TetrisBlock {
         this.color = color;
 
         x = (int)(Math.random()*(panelCol-getWidth()+1));
-        y = -(getHeight()+1);
+        y = -getHeight();
     
         initShape();
     }

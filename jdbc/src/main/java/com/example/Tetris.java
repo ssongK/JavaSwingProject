@@ -5,8 +5,8 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Tetris extends JFrame{
-    private JLabel score = new JLabel("score : "); // 점수 기록
-    private JLabel user = new JLabel("user name : "); // 유저 네임을 받아와서 기록
+    private JLabel scoreBoard = new JLabel("score : "); // 점수 기록
+    private JLabel userInfo = new JLabel("user name : "); // 유저 네임을 받아와서 기록
     private JButton restart = new JButton("restart");
     private JButton exit = new JButton("exit");
 
@@ -23,10 +23,10 @@ public class Tetris extends JFrame{
         setBounds(0,0,300,530);
 
         add(new Header());
-        user.setText(user.getText()+"name");
-        score.setText(score.getText()+"0");
+        userInfo.setText(userInfo.getText()+"name");
+        scoreBoard.setText(scoreBoard.getText()+"0");
 
-        tp = new TetrisPanelMethod(); // TetrisPanelMethod 객체 생성 및 참조
+        tp = new TetrisPanelMethod(scoreBoard); // TetrisPanelMethod 객체 생성 및 참조
         add(tp); // 중앙 : 테트리스에 필요한 라인 및 블록 생성(TetrisPanel 생성자 참조)
         tp.setFocusable(true);
         tp.requestFocus();
@@ -52,10 +52,10 @@ public class Tetris extends JFrame{
             setBackground(Color.LIGHT_GRAY);
             setLayout(new GridLayout(1,2));
             setBounds(0,0,300,50);
-            add(user);
-            user.setHorizontalAlignment(JLabel.CENTER);
-            add(score);
-            score.setHorizontalAlignment(JLabel.CENTER);
+            add(userInfo);
+            userInfo.setHorizontalAlignment(JLabel.CENTER);
+            add(scoreBoard);
+            scoreBoard.setHorizontalAlignment(JLabel.CENTER);
         }
     }
 
@@ -71,6 +71,8 @@ public class Tetris extends JFrame{
             restart.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     startGame();
+                    tp.setFocusable(true);
+                    tp.requestFocus();
                 }
             });
 
