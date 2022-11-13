@@ -55,19 +55,27 @@ public class TetrisPanelMethod extends JPanel{
     // Tetris panel의 line 및 block 생성 메서드 호출
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-
         drawLine(g);
         drawBlock(g);
         drawSettedBlock(g);
+    }
+
+    // 테트리스 판 초기화
+    public void resetPanel(){
+        for(int row=0; row<panelRow; row++){
+            for(int col=0; col<panelCol; col++){
+                settedBlock[row][col] = null;
+            }
+        }
+        // repaint();
     }
 
     // 격자 모양 라인 생성
     private void drawLine(Graphics g){
         g.setColor(Color.CYAN);
         for(int j=0; j<panelRow; j++){
-            for(int i=0;i<panelCol;i++){
+            for(int i=0; i<panelCol; i++){
                 g.drawRect(i*blockSize, j*blockSize, blockSize, blockSize);
-                // settedBlock[i][j] = null;
             }
         }
     }
@@ -183,7 +191,7 @@ public class TetrisPanelMethod extends JPanel{
         repaint();
     }
 
-    // 왼쪽 벽에 닿았는지 체크
+    // 블록의 왼쪽이 벽이나 다른 블록에 닿았는지 체크
     private boolean checkLeft(){
         if(block.getX()<=0) return true;
 
@@ -214,7 +222,7 @@ public class TetrisPanelMethod extends JPanel{
         repaint();
     }
 
-    // 오른쪽 벽에 닿았는지 체크
+    // 블록의 오른쪽이 벽이나 다른 블록에 닿았는지 체크
     private boolean checkRight(){
         if(block.getX()>=(panelCol-block.getWidth())) return true;
 
@@ -240,11 +248,27 @@ public class TetrisPanelMethod extends JPanel{
     // 블록 회전
     public void rotateBlock(){
         if(block==null) return;
+
         block.rotate();
 
-        if(block.getLeft()<0) block.setX(0);
-        if(block.getRight()>=panelCol) block.setX(panelCol-block.getWidth());
-        if(block.getBottom()>=panelRow) block.setY(panelRow-block.getHeight());
+        if(checkLeft()){
+            if(block.getLeft()<0) block.setX(0);
+            block.setX(block.getX()+1);
+        }
+
+        if(checkRight()){
+            if(block.getRight()>=panelCol) block.setX(panelCol-block.getWidth());
+            block.setX(block.getX()-1);
+        }
+
+        if(checkBottom()){
+            if(block.getBottom()>=panelRow) block.setY(panelRow-block.getHeight());
+            // block.setY(block.getY()-1);
+        }
+
+        // if(block.getLeft()<0) block.setX(0);
+        // if(block.getRight()>=panelCol) block.setX(panelCol-block.getWidth());
+        // if(block.getBottom()>=panelRow) block.setY(panelRow-block.getHeight());
 
         repaint();
     }
@@ -285,6 +309,10 @@ public class TetrisPanelMethod extends JPanel{
         if(block.getY()<0)
             return true;
         return false;
+    }
+
+    public void showResult(){
+        JOptionPane.showMessageDialog(this, "your score is "+score+"\n choose 'restart' or 'exit'");
     }
 }
 

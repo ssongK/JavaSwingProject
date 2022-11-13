@@ -20,16 +20,16 @@ public class Tetris extends JFrame{
         setBackground(Color.ORANGE);
         setLayout(null);
         setResizable(false);
-        setBounds(0,0,300,530);
+        setBounds(0,0,300,528);
 
-        add(new Header());
+        add(new Header()); // 컨텐츠 팬의 상단 -> 유저 이름, 점수 표시
 
         tp = new TetrisPanelMethod(scoreBoard); // TetrisPanelMethod 객체 생성 및 참조
-        add(tp); // 중앙 : 테트리스에 필요한 라인 및 블록 생성(TetrisPanel 생성자 참조)
+        add(tp); // 컨텐츠 팬의 중앙 -> 테트리스에 필요한 라인 및 블록 생성(TetrisPanel 생성자 참조)
         tp.setFocusable(true);
         tp.requestFocus();
         
-        add(new Footer());
+        add(new Footer()); // 컨텐츠 팬의 하단 -> 다시하기, 그만하기 버튼
 
 
         setSize(300,530);
@@ -39,14 +39,14 @@ public class Tetris extends JFrame{
         startGame();
     }
 
-    // 쓰레드 start
+    // 쓰레드 객체의 run() 호출(게임 시작)
     public void startGame(){
         userInfo.setText("user name : "+"name");
-        scoreBoard.setText("score : "+"0");
+        scoreBoard.setText("score : 0");
         new TetrisThread(tp).start();
     }
 
-    // 상단 : 유저이름, 점수 등의 정보를 표시
+    // 컨텐츠 팬의 상단 : 유저 이름, 점수 표시
     class Header extends JPanel{
         public Header(){
             setBackground(Color.LIGHT_GRAY);
@@ -59,7 +59,7 @@ public class Tetris extends JFrame{
         }
     }
 
-    // 하단 : 다시하기, 그만하기 버튼 생성
+    // 컨텐츠 팬의 하단 : 다시하기, 그만하기 버튼 생성
     class Footer extends JPanel{
         public Footer(){
             setBackground(Color.LIGHT_GRAY);

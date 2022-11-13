@@ -12,10 +12,17 @@ public class TetrisThread extends Thread{
 
     @Override
     public void run() {
+        // 테트리스 판 초기화
+        tp.resetPanel();
         while(true){
             // 블록 생성
-            tp.createBlock();
-            
+            try{
+                tp.createBlock();
+                Thread.sleep(500);
+            }
+            catch(InterruptedException ex){
+                Logger.getLogger(TetrisThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
             // 블록 떨어짐(0.5초마다)
             while(tp.dropBlock()){
                 try{
@@ -27,7 +34,7 @@ public class TetrisThread extends Thread{
             }   
 
             if(tp.checkGameOver()){
-                System.out.println("Game Over");   
+                tp.showResult();
                 tp.setFocusable(false);
                 break;
             }

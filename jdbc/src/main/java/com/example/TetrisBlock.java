@@ -5,31 +5,31 @@ import java.util.Random;
 
 public class TetrisBlock {
 
-    int[][] L_block = {{1,0},
-                       {1,0},
-                       {1,1}};
+    private int[][] L_block = {{1,0},
+                               {1,0},
+                               {1,1}};
 
-    int[][] J_block = {{0,1},
-                       {0,1},
-                       {1,1}};
+    private int[][] J_block = {{0,1},
+                               {0,1},
+                               {1,1}};
 
-    int[][] O_block = {{1,1},
-                       {1,1}};
+    private int[][] O_block = {{1,1},
+                               {1,1}};
 
-    int[][] T_block = {{0,1,0},
-                       {1,1,1}};
+    private int[][] T_block = {{0,1,0},
+                               {1,1,1}};
 
-    int[][] S_block = {{1,1,0},
-                       {0,1,1}};
+    private int[][] S_block = {{1,1,0},
+                               {0,1,1}};
 
-    int[][] Z_block = {{0,1,1},
-                       {1,1,0}};
+    private int[][] Z_block = {{0,1,1},
+                               {1,1,0}};
 
-    int[][] I_block = {{1,1,1,1}};
+    private int[][] I_block = {{1,1,1,1}};
 
-    int[][][] blockShapes = {L_block, J_block, O_block, T_block, S_block, Z_block, I_block};
+    private int[][][] blockShapes = {L_block, J_block, O_block, T_block, S_block, Z_block, I_block};
     
-    Color blockColor[] = {Color.MAGENTA, Color.GREEN, Color.GRAY, Color.RED};
+    private Color blockColor[] = {Color.MAGENTA, Color.GREEN, Color.GRAY, Color.RED, Color.WHITE};
 
     private int[][] shape;
     private Color color;
@@ -83,6 +83,17 @@ public class TetrisBlock {
     public void moveRight(){x++;}
     public void moveLeft(){x--;}
     public void rotate(){
+        if(shape == I_block){
+            if(this.getWidth() == 1){
+                this.setX(this.getX()+1);
+                this.setY(this.getY()-1);
+            }
+            else{
+                this.setX(this.getX()-1);
+                this.setY(this.getY()+1);
+            }
+        }
+            
         currnetRotation++;
         currnetRotation %= 4;
         shape = shapes[currnetRotation];
