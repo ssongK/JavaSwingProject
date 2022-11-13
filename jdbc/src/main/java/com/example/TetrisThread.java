@@ -15,7 +15,7 @@ public class TetrisThread extends Thread{
         while(true){
             // 블록 생성
             tp.createBlock();
-
+            
             // 블록 떨어짐(0.5초마다)
             while(tp.dropBlock()){
                 try{
@@ -27,7 +27,8 @@ public class TetrisThread extends Thread{
             }   
 
             if(tp.checkGameOver()){
-                System.out.println("Game Over");
+                System.out.println("Game Over");   
+                tp.setFocusable(false);
                 break;
             }
         }

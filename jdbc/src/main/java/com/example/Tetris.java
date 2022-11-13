@@ -7,8 +7,8 @@ import javax.swing.*;
 public class Tetris extends JFrame{
     private JLabel scoreBoard = new JLabel("score : "); // 점수 기록
     private JLabel userInfo = new JLabel("user name : "); // 유저 네임을 받아와서 기록
-    private JButton restart = new JButton("restart");
-    private JButton exit = new JButton("exit");
+    private JButton restart = new JButton("restart"); // 다시 시작
+    private JButton exit = new JButton("exit"); // 종료
 
     private TetrisPanelMethod tp;
 
@@ -23,8 +23,6 @@ public class Tetris extends JFrame{
         setBounds(0,0,300,530);
 
         add(new Header());
-        userInfo.setText(userInfo.getText()+"name");
-        scoreBoard.setText(scoreBoard.getText()+"0");
 
         tp = new TetrisPanelMethod(scoreBoard); // TetrisPanelMethod 객체 생성 및 참조
         add(tp); // 중앙 : 테트리스에 필요한 라인 및 블록 생성(TetrisPanel 생성자 참조)
@@ -43,6 +41,8 @@ public class Tetris extends JFrame{
 
     // 쓰레드 start
     public void startGame(){
+        userInfo.setText("user name : "+"name");
+        scoreBoard.setText("score : "+"0");
         new TetrisThread(tp).start();
     }
 

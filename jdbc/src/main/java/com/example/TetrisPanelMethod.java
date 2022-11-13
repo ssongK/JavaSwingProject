@@ -49,7 +49,7 @@ public class TetrisPanelMethod extends JPanel{
 
     // TetrisBlock 클래스에서 생성(모양, 크기, ColSize)
     public void createBlock(){
-        block = new TetrisBlock(new int[][]{{1,0},{1,0},{1,1}}, Color.BLUE, panelCol);
+        block = new TetrisBlock(panelCol);
     }
 
     // Tetris panel의 line 및 block 생성 메서드 호출
@@ -67,6 +67,7 @@ public class TetrisPanelMethod extends JPanel{
         for(int j=0; j<panelRow; j++){
             for(int i=0;i<panelCol;i++){
                 g.drawRect(i*blockSize, j*blockSize, blockSize, blockSize);
+                // settedBlock[i][j] = null;
             }
         }
     }
@@ -163,7 +164,8 @@ public class TetrisPanelMethod extends JPanel{
                 if(shape[row][col]!=0){
                     int x = col + block.getX();
                     int y = row + block.getY()+1;
-                    if(y<0) break;
+                    if(x<0||x>=panelCol) break;
+                    if(y<0||y>=panelRow) break;
                     if(settedBlock[y][x]!=null) return true;
                     break;
                 }
@@ -237,7 +239,13 @@ public class TetrisPanelMethod extends JPanel{
 
     // 블록 회전
     public void rotateBlock(){
+        if(block==null) return;
         block.rotate();
+
+        if(block.getLeft()<0) block.setX(0);
+        if(block.getRight()>=panelCol) block.setX(panelCol-block.getWidth());
+        if(block.getBottom()>=panelRow) block.setY(panelRow-block.getHeight());
+
         repaint();
     }
 
