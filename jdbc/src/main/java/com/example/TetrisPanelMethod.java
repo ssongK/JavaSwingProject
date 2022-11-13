@@ -313,6 +313,8 @@ public class TetrisPanelMethod extends JPanel{
 
     public void showResult(){
         JOptionPane.showMessageDialog(this, "your score is "+score+"\n choose 'restart' or 'exit'");
+        Jdbc j = new Jdbc();
+        j.saveGameScore("game1", score, "ssongk");
     }
 }
 

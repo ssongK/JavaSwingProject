@@ -15,7 +15,7 @@ public class Tetris extends JFrame{
     // 생성자 : 전체 레이아웃 생성
     public Tetris(){
         setTitle("테트리스");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         setBackground(Color.ORANGE);
         setLayout(null);
