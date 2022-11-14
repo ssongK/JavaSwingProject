@@ -14,10 +14,10 @@ public class GameRank extends JFrame {
 	JPanel pn3 = new JPanel();
 	JPanel pn4 = new JPanel();
 	JButton btFoot = new JButton("닫기");
-	JButton bt1 = new JButton("랭킹 1");
-	JButton bt2 = new JButton("랭킹 2");
-	JButton bt3 = new JButton("랭킹 3");
-	JButton bt4 = new JButton("랭킹 4");
+	JButton bt1 = new JButton("game 1");
+	JButton bt2 = new JButton("game 2");
+	JButton bt3 = new JButton("gmae 3");
+	JButton bt4 = new JButton("game 4");
 	JLabel lbHead = new JLabel("★랭킹 ★",JLabel.CENTER);
 	JLabel lbEasy = new JLabel("1위 : ",JLabel.CENTER);//여기에 1위 내용 추가
 	JLabel lbNormal = new JLabel("2위 : ",JLabel.CENTER);//여기에 2위 내용 추가
@@ -149,14 +149,7 @@ public class GameRank extends JFrame {
 				lbHard.setText("3위 : "+rank[2]);
 			}
 		}
-	}
-		
+	}		
 //MyHandler--------------------------------------------------------------------------------------
-	
-	 
 
-	public static void main(String[] args) {
-		new GameRank();
-	}
-
-}//GameRank---------------------------------------------------------------------------------
+}
