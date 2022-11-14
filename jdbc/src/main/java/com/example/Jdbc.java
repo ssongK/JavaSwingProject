@@ -88,8 +88,21 @@ public class Jdbc {
 
     // 게임 점수 저장
     public void saveGameScore(String gameName, int gameScore, String userName){
+        int score;
         try{
-            String sql = "update user set "+gameName+"=(?) where name=(?)";
+            String sql = "select "+gameName+" from user where name=(?)";
+            selectPstm = conn.prepareStatement(sql);
+            selectPstm.setString(1, userName);
+            rs = selectPstm.executeQuery();
+            if(rs.next()){
+                score = rs.getInt(gameName);
+                if(score>gameScore){
+                    System.out.print("최고 기록이 아님! ");
+                    return;
+                }
+                else System.out.println("최고 기록! ");
+            }
+            sql = "update user set "+gameName+"=(?) where name=(?)";
             updatePstm = conn.prepareStatement(sql);
             updatePstm.setInt(1, gameScore);
             updatePstm.setString(2, userName);
@@ -102,12 +115,12 @@ public class Jdbc {
         }
     }
 
-    // 게임 랭킹 조회 : 결과는 String[]으로 리턴 -> JLabel에 setText()로 순위 기록
+    // 게임 랭킹 조회 : 결과는 String[]으로 리턴 -> 랭킹 페이지의 JLabel에 setText()로 기록
     public String[] gameRank(String gameName){
         try{
             String sql = "select name,"+gameName+" from user order by "+gameName+" desc";
-            updatePstm = conn.prepareStatement(sql);
-            rs = updatePstm.executeQuery();
+            selectPstm = conn.prepareStatement(sql);
+            rs = selectPstm.executeQuery();
             for(int i=0;i<3;i++){
                 if(!rs.next()) break;
                 rank[i] = rs.getString("name")+" - "+rs.getInt(gameName);
