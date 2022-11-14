@@ -15,6 +15,7 @@ public class GameHome extends JFrame {
     JLabel id, U_name;
     JButton btnLogin, btnLogout, btnSingup, btnRank;
     JButton btnGm1, btnGm2, btnGm3, btnGm4;
+    String name;
     public GameHome() {
         setTitle("JAVA 프로젝트 GAME");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,7 +45,7 @@ public class GameHome extends JFrame {
             //Login Dialog() -----------------------------------------------------------------------------------------
             btnLogin.addActionListener(new ActionListener() {
             	public void actionPerformed(ActionEvent e) {
-            		String name=JOptionPane.showInputDialog(NorthPanel.this,"닉네임을 입력해주세요.");
+            		name=JOptionPane.showInputDialog(NorthPanel.this,"닉네임을 입력해주세요.");
             		
             		if(name==null) return;
             		
@@ -55,6 +56,11 @@ public class GameHome extends JFrame {
             				btnRank.setVisible(true);
             				btnLogin.setVisible(false);
             				btnSingup.setVisible(false);
+                            btnGm1.setEnabled(true);
+                            btnGm2.setEnabled(true);
+                            btnGm3.setEnabled(true);
+                            btnGm4.setEnabled(true);
+                            
             			}
             			else if(j.login(name) == false) {
             				JOptionPane.showMessageDialog(null,"로그인에 실패하셨습니다.","Error Message",JOptionPane.ERROR_MESSAGE);
@@ -144,25 +150,26 @@ public class GameHome extends JFrame {
             
             btnGm1 = new JButton(nomalGM1);
             add(btnGm1);
+            btnGm1.setEnabled(false);
             btnGm1.setRolloverIcon(rolloverGM1);
             btnGm1.addActionListener(new NEWFrame());
             
             btnGm2 = new JButton(nomalGM2);
             add(btnGm2);
+            btnGm2.setEnabled(false);
             btnGm2.setRolloverIcon(rolloverGM2);
-            add(btnGm2);
             btnGm2.addActionListener(new NEWFrame());
             
             btnGm3 = new JButton(nomalGM3);
             add(btnGm3);
+            btnGm3.setEnabled(false);
             btnGm3.setRolloverIcon(rolloverGM3);
-            add(btnGm3);
             btnGm3.addActionListener(new NEWFrame());
             
             btnGm4 = new JButton(nomalGM4);
             add(btnGm4);
+            btnGm4.setEnabled(false);
             btnGm4.setRolloverIcon(rolloverGM4);
-            add(btnGm4);
             btnGm4.addActionListener(new NEWFrame());
         }
     }
@@ -174,7 +181,7 @@ public class GameHome extends JFrame {
     	public void actionPerformed(ActionEvent e) {
     		Object obj = e.getSource();
     		if(obj == btnGm1) {
-    			new Tetris();
+    			new Tetris(name);
     		}
     		if(obj == btnGm2) {
     			//new testgame2();   // 패키지에 연결된 작성한 게임이름으로 변경후 사용
