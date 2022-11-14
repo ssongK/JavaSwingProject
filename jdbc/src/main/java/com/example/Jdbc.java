@@ -121,7 +121,7 @@ public class Jdbc {
             String sql = "select name,"+gameName+" from user order by "+gameName+" desc";
             selectPstm = conn.prepareStatement(sql);
             rs = selectPstm.executeQuery();
-            for(int i=0;i<3;i++){
+            for(int i=0; i<3; i++){
                 if(!rs.next()) break;
                 rank[i] = rs.getString("name")+" - "+rs.getInt(gameName);
             }
