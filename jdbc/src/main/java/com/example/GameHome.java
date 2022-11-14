@@ -120,6 +120,10 @@ public class GameHome extends JFrame {
         				btnRank.setVisible(false);
         				btnLogin.setVisible(true);
         				btnSingup.setVisible(true);
+                        btnGm1.setEnabled(false);
+                        btnGm2.setEnabled(false);
+                        btnGm3.setEnabled(false);
+                        btnGm4.setEnabled(false);
             		}
             	}
             });
