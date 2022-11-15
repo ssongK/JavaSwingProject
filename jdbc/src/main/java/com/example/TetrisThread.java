@@ -16,13 +16,7 @@ public class TetrisThread extends Thread{
         tp.resetPanel();
         while(true){
             // 블록 생성
-            try{
-                tp.createBlock();
-                Thread.sleep(500);
-            }
-            catch(InterruptedException ex){
-                Logger.getLogger(TetrisThread.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            tp.createBlock();
             // 블록 떨어짐(0.5초마다)
             while(tp.dropBlock()){
                 try{
@@ -30,10 +24,12 @@ public class TetrisThread extends Thread{
                 }
                 catch(InterruptedException ex){
                     Logger.getLogger(TetrisThread.class.getName()).log(Level.SEVERE, null, ex);
+                    return;
                 }
             }   
-
+            
             if(tp.checkGameOver()){
+                interrupt();
                 tp.showResult();
                 tp.setFocusable(false);
                 break;

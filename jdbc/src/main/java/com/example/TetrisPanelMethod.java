@@ -16,11 +16,13 @@ public class TetrisPanelMethod extends JPanel{
     private Color[][] settedBlock = new Color[panelRow][panelCol];
     private JLabel scoreBoard;
     private int score;
+    private String userName;
 
     // 생성자 : panel size, bgColor 설정, createBlock 메서드 호출
-    public TetrisPanelMethod(JLabel scoreBoard){
+    public TetrisPanelMethod(JLabel scoreBoard, String userName){
         this.scoreBoard = scoreBoard;
         this.score = 0;
+        this.userName = userName;
 
         setBackground(Color.ORANGE);
         setBounds(0,50,panelWidth,panelHeight);
@@ -67,7 +69,6 @@ public class TetrisPanelMethod extends JPanel{
                 settedBlock[row][col] = null;
             }
         }
-        // repaint();
     }
 
     // 격자 모양 라인 생성
@@ -263,12 +264,7 @@ public class TetrisPanelMethod extends JPanel{
 
         if(checkBottom()){
             if(block.getBottom()>=panelRow) block.setY(panelRow-block.getHeight());
-            // block.setY(block.getY()-1);
         }
-
-        // if(block.getLeft()<0) block.setX(0);
-        // if(block.getRight()>=panelCol) block.setX(panelCol-block.getWidth());
-        // if(block.getBottom()>=panelRow) block.setY(panelRow-block.getHeight());
 
         repaint();
     }
@@ -312,9 +308,10 @@ public class TetrisPanelMethod extends JPanel{
     }
 
     public void showResult(){
-        JOptionPane.showMessageDialog(this, "your score is "+score+"\n choose 'restart' or 'exit'");
+        JOptionPane.showMessageDialog(this, "your score is "+score+"\nchoose 'restart' or 'exit'");
         Jdbc j = new Jdbc();
-        j.saveGameScore("game1", score, "ssongk");
+        j.saveGameScore("game1", score, userName);
+        score = 0;
     }
 }
 

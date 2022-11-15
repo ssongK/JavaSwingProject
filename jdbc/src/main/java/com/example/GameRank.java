@@ -23,7 +23,9 @@ public class GameRank extends JFrame {
 	JLabel lbNormal = new JLabel("2위 : ",JLabel.CENTER);//여기에 2위 내용 추가
 	JLabel lbHard = new JLabel("3위 : ",JLabel.CENTER);//여기에 3위 내용 추가
 	
-	
+	Jdbc j = new Jdbc();
+	String[] rank = new String[3];
+
 	public GameRank() {
 		
 		Container cp = getContentPane();
@@ -120,8 +122,6 @@ public class GameRank extends JFrame {
 	{
 		@Override
 		public void actionPerformed(ActionEvent e) { 
-			Jdbc j = new Jdbc();
-			String rank[] = new String[3];
 			Object obj = e.getSource();
 			if(obj==btFoot) dispose();
 			if(obj==bt1){
