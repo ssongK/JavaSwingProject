@@ -14,10 +14,10 @@ public class GameRank extends JFrame {
 	JPanel pn3 = new JPanel();
 	JPanel pn4 = new JPanel();
 	JButton btFoot = new JButton("닫기");
-	JButton bt1 = new JButton("game 1");
-	JButton bt2 = new JButton("game 2");
-	JButton bt3 = new JButton("gmae 3");
-	JButton bt4 = new JButton("game 4");
+	JButton bt1 = new JButton("game1");
+	JButton bt2 = new JButton("game2");
+	JButton bt3 = new JButton("gmae3");
+	JButton bt4 = new JButton("game4");
 	JLabel lbHead = new JLabel("★랭킹 ★",JLabel.CENTER);
 	JLabel lbEasy = new JLabel("1위 : ",JLabel.CENTER);//여기에 1위 내용 추가
 	JLabel lbNormal = new JLabel("2위 : ",JLabel.CENTER);//여기에 2위 내용 추가
@@ -125,29 +125,23 @@ public class GameRank extends JFrame {
 			Object obj = e.getSource();
 			if(obj==btFoot) dispose();
 			if(obj==bt1){
-				rank = j.gameRank("game1");
-				lbEasy.setText("1위 : "+rank[0]);
-				lbNormal.setText("2위 : "+rank[1]);
-				lbHard.setText("3위 : "+rank[2]);
+				showRank("game1");
 			}
 			if(obj==bt2){
-				rank = j.gameRank("game2");
-				lbEasy.setText("1위 : "+rank[0]);
-				lbNormal.setText("2위 : "+rank[1]);
-				lbHard.setText("3위 : "+rank[2]);
+				showRank("game2");
 			}
 			if(obj==bt3){
-				rank = j.gameRank("game3");
-				lbEasy.setText("1위 : "+rank[0]);
-				lbNormal.setText("2위 : "+rank[1]);
-				lbHard.setText("3위 : "+rank[2]);
+				showRank("game3");
 			}
-			if(obj==bt4){
-				rank = j.gameRank("game4");
-				lbEasy.setText("1위 : "+rank[0]);
-				lbNormal.setText("2위 : "+rank[1]);
-				lbHard.setText("3위 : "+rank[2]);
-			}
+			if(obj==bt4)
+				showRank("game4");
+		}
+
+		public void showRank(String gameName){
+			rank = j.gameRank(gameName);
+			lbEasy.setText("1위 : "+rank[0]);
+			lbNormal.setText("2위 : "+rank[1]);
+			lbHard.setText("3위 : "+rank[2]);
 		}
 	}		
 //MyHandler--------------------------------------------------------------------------------------
