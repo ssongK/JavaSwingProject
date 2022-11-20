@@ -17,17 +17,14 @@ public class TetrisThread extends Thread{
             tp.createBlock();
             // 블록 떨어짐(0.5초마다)
             while(tp.dropBlock()){
-                System.out.println("drop");
                 try{
                     Thread.sleep(500);
                 }
                 catch(InterruptedException ex) { return; }
             }   
-            System.out.println("stop");
             if(tp.checkGameOver()){
                 tp.showResult();
                 tp.setFocusable(false);
-                // interrupt();
                 break;
             }
         }
