@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import com.example.tetris.Tetris;
+
 // 패키지로 묶어서 각각의 게임을 받아올 것
 
 

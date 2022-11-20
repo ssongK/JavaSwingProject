@@ -1,6 +1,4 @@
-package com.example;
-
-import java.util.logging.*;
+package com.example.tetris;
 
 public class TetrisThread extends Thread{
     private TetrisPanelMethod tp;
@@ -19,19 +17,17 @@ public class TetrisThread extends Thread{
             tp.createBlock();
             // 블록 떨어짐(0.5초마다)
             while(tp.dropBlock()){
+                System.out.println("drop");
                 try{
                     Thread.sleep(500);
                 }
-                catch(InterruptedException ex){
-                    Logger.getLogger(TetrisThread.class.getName()).log(Level.SEVERE, null, ex);
-                    return;
-                }
+                catch(InterruptedException ex) { return; }
             }   
-            
+            System.out.println("stop");
             if(tp.checkGameOver()){
-                interrupt();
                 tp.showResult();
                 tp.setFocusable(false);
+                // interrupt();
                 break;
             }
         }

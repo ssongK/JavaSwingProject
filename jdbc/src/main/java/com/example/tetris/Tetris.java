@@ -1,4 +1,4 @@
-package com.example;
+package com.example.tetris;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -22,7 +22,6 @@ public class Tetris extends JFrame{
         setTitle("테트리스");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        setBackground(Color.ORANGE);
         setLayout(null);
         setResizable(false);
         setBounds(0,0,310,528);
@@ -72,15 +71,13 @@ public class Tetris extends JFrame{
             restart.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     restartGame();
-                    tp.setFocusable(true);
-                    tp.requestFocus();
                 }
             });
 
             // 테트리스 프레임 종료(게임이 끝나기 전 종료는 점수 저장 안 함)
             exit.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
-                    dispose();
+                    stopGame();
                 }
             });
         }
@@ -98,5 +95,13 @@ public class Tetris extends JFrame{
     public void restartGame(){
         tt.interrupt();
         startGame();
+        tp.setFocusable(true);
+        tp.requestFocus();
+    }
+
+    // 게임 종료
+    public void stopGame(){
+        tt.interrupt();
+        dispose();
     }
 }

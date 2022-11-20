@@ -1,8 +1,10 @@
-package com.example;
+package com.example.tetris;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+import com.example.Jdbc;
 
 // 중앙 : 테트리스 게임 panel
 public class TetrisPanelMethod extends JPanel{
@@ -160,7 +162,7 @@ public class TetrisPanelMethod extends JPanel{
         repaint();
     }
 
-    // 블록이 바닥에 닿았는지 체크
+    // 블록 아래에 다른 블록이나 바닥이 있는지 체크
     private boolean checkBottom(){
         if(block.getBottom()==panelRow) return true;
 
@@ -249,19 +251,23 @@ public class TetrisPanelMethod extends JPanel{
     // 블록 회전
     public void rotateBlock(){
         if(block==null) return;
-
+        if(checkBottom()) return;
+        // 블록 회전 메서드 호출
         block.rotate();
 
+        // 왼쪽에 벽이나 블록이 있는지 체크 -> 있으면 오른쪽으로 한 칸 밀림
         if(checkLeft()){
             if(block.getLeft()<0) block.setX(0);
             block.setX(block.getX()+1);
         }
-
+        
+        // 오른쪽에 벽이나 블록이 있는지 체크 -> 있으면 왼쪽으로 한 칸 밀림
         if(checkRight()){
             if(block.getRight()>=panelCol) block.setX(panelCol-block.getWidth());
             block.setX(block.getX()-1);
         }
 
+        // 아래에 벽이나 블록이 있는지 체크 -> 있으면 y좌표를 해당 위치로 고정
         if(checkBottom()){
             if(block.getBottom()>=panelRow) block.setY(panelRow-block.getHeight());
         }

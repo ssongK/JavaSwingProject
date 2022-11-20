@@ -1,4 +1,4 @@
-package com.example;
+package com.example.tetris;
 
 import java.awt.*;
 import java.util.Random;
@@ -43,7 +43,7 @@ public class TetrisBlock {
         this.shape = blockShapes[r.nextInt(blockShapes.length)];
         this.color = blockColor[r.nextInt(blockColor.length)];
 
-        x = (int)(Math.random()*(panelCol-getWidth()));
+        x = r.nextInt(panelCol-getWidth());
         y = -getHeight();
     
         initShape();
@@ -83,17 +83,6 @@ public class TetrisBlock {
     public void moveRight(){x++;}
     public void moveLeft(){x--;}
     public void rotate(){
-        if(shape == I_block){
-            if(this.getWidth() == 1){
-                this.setX(this.getX()+1);
-                this.setY(this.getY()-1);
-            }
-            else{
-                this.setX(this.getX()-1);
-                this.setY(this.getY()+1);
-            }
-        }
-            
         currnetRotation++;
         currnetRotation %= 4;
         shape = shapes[currnetRotation];
