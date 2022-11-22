@@ -75,7 +75,7 @@ class Play extends block_breaker
    int xsize=130, ysize=25;
    int score=0; 
    
-   int stage=5; //스테이지
+   int stage=1; //스테이지
    
    int bl_sizex, bl_sizey;
    
