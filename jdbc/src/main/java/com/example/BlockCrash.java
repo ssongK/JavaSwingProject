@@ -281,7 +281,7 @@ class Play extends block_breaker
       {
          block=new LinkedList<Block>();
          bl_sizex=45;
-         bl_sizey=10;
+         bl_sizey=30;
          int item_bl5=0;
          for (int y=0; y<15; y++)
          {
