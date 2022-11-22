@@ -190,10 +190,10 @@ public class GameHome extends JFrame {
     			new Tetris(name);
     		}
     		if(obj == btnGm2) {
-    			new BlockGameFrame();   // 패키지에 연결된 작성한 게임이름으로 변경후 사용
+    			new BlockCrash(name);   // 패키지에 연결된 작성한 게임이름으로 변경후 사용
     		}
     		if(obj == btnGm3) {
-    			//new testgame3();   // 패키지에 연결된 작성한 게임이름으로 변경후 사용
+    			new TopGun();   // 패키지에 연결된 작성한 게임이름으로 변경후 사용
     		}
     		if(obj == btnGm4) {
     			//new testgame4();   // 패키지에 연결된 작성한 게임이름으로 변경후 사용

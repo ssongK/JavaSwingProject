@@ -409,9 +409,7 @@ class Game extends JPanel implements KeyListener, Runnable
          g.drawString(o.st5, 190, 650);
          g.setColor(Color.red);
          g.drawString(o.st5, 186, 650);
-         /* 점수기록 */
-         Jdbc j = new Jdbc();
-         j.saveGameScore("game2", score, userName);
+         
       }
    }
 
@@ -485,14 +483,14 @@ class Game extends JPanel implements KeyListener, Runnable
             if (p.x-80<=20)
                p.x=20;
             else
-               p.x-=60;
+               p.x-=80;
          }
          else if (e.getKeyCode()==KeyEvent.VK_RIGHT)
          {
             if (p.x+p.xsize>=700)
                p.x=635;
             else
-               p.x+=60;
+               p.x+=80;
          }
       }
       p.resetball();
@@ -560,6 +558,10 @@ protected void dispose() {
                mode=GAME_OVER;
                score=p.score;
                a=100;
+               /* 점수기록 */
+               Jdbc j = new Jdbc();
+               j.saveGameScore("game2", o.your_score, userName);
+
                G_Play.interrupt();
             }
          }
@@ -600,7 +602,7 @@ public class BlockCrash extends JFrame
       G.add(u_name, BorderLayout.SOUTH);
       
    }
-   public static void main(String[] args) {
-	   BlockCrash v = new BlockCrash("test"); 
-	}
+   // public static void main(String[] args) {
+	//    BlockCrash v = new BlockCrash("test"); 
+	// }
 }

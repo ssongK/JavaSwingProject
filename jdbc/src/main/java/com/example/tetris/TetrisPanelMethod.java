@@ -122,7 +122,7 @@ public class TetrisPanelMethod extends JPanel{
         }
     }
 
-    // 셋팅된 블록들을 테트리스 패널에 그려줌
+    // 사용자가 셋팅한 블록들을 테트리스 패널에 그려줌
     private void drawSettedBlock(Graphics g){
         Color color;
         for(int r=0; r<panelRow; r++){
@@ -175,8 +175,8 @@ public class TetrisPanelMethod extends JPanel{
                 if(shape[row][col]!=0){
                     int x = col + block.getX();
                     int y = row + block.getY()+1;
-                    if(x<0||x>=panelCol) break;
-                    if(y<0||y>=panelRow) break;
+                    if(x<0 || x>=panelCol) break;
+                    if(y<0 || y>=panelRow) break;
                     if(settedBlock[y][x]!=null) return true;
                     break;
                 }
@@ -252,6 +252,8 @@ public class TetrisPanelMethod extends JPanel{
     public void rotateBlock(){
         if(block==null) return;
         if(checkBottom()) return;
+        if(checkLeft()) return;
+        if(checkRight()) return;
         // 블록 회전 메서드 호출
         block.rotate();
 
@@ -313,6 +315,7 @@ public class TetrisPanelMethod extends JPanel{
         return false;
     }
 
+    // 게임 종료 후 결과 보여줌
     public void showResult(){
         JOptionPane.showMessageDialog(this, "your score is "+score+"\nchoose 'restart' or 'exit'");
         Jdbc j = new Jdbc();
