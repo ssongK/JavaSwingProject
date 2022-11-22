@@ -1,17 +1,20 @@
 package com.example;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 abstract class block_breaker
@@ -130,7 +133,7 @@ class Play extends block_breaker
             if ( x<=ball.get(i).ballcenter && x1>=ball.get(i).ballcenter)
                ball.get(i).dx=-3;
             else if (x1<ball.get(i).ballcenter && ball.get(i).ballcenter<=x2)
-               ball.get(i).dx=-2;
+               ball.get(i).dx=-1;
             else if (x2<ball.get(i).ballcenter && ball.get(i).ballcenter<=x3)
                ball.get(i).dx=1;
             else if (x3<ball.get(i).ballcenter && ball.get(i).ballcenter<=x4)
@@ -317,6 +320,7 @@ class Over extends block_breaker
    int your_score=0;
    int score=0;
    Play play;
+   String name;
    
    Font font1=new Font("stencil", Font.BOLD, 110);
    Font font2=new Font("stencil", Font.BOLD, 40);
@@ -324,6 +328,7 @@ class Over extends block_breaker
    String st1=new String("GAME OVER");
    String st3=new String("YOUR SCORE: "+score);
    String st4=new String("Re? PRESS ENTER!");
+   String st5=new String("Exit? PRESS SPACE");
    
    void draw(Graphics g)
    {
@@ -351,7 +356,7 @@ class Game extends JPanel implements KeyListener, Runnable
    Over o = new Over();
    
    int score=0;
-   
+
    final static int GAME_PLAY=1;
    final static int GAME_OVER=2;
    
@@ -359,7 +364,7 @@ class Game extends JPanel implements KeyListener, Runnable
    int mode=GAME_PLAY;
    
    Game()
-   {      
+   {  
 	  G_Play.start();
       requestFocus();
       setFocusable(true);
@@ -374,15 +379,15 @@ class Game extends JPanel implements KeyListener, Runnable
       Graphics2D g2=(Graphics2D)g;
       GradientPaint gp=new GradientPaint(400,0,Color.BLACK,400,800,Color.GRAY);
       g2.setPaint(gp);
-      g2.fillRect(0, 0, 800, 750);
+      g2.fillRect(0, 0, 800, 800);
       
       if (mode==GAME_PLAY)
       {   
-         g2.fillRect(0, 0, 800, 750);
+         g2.fillRect(0, 0, 800, 800);
          g2.setColor(Color.GRAY);
          g2.fillRect(0, 0, 800, 20);
-         g2.fillRect(0, 25, 20, 750);
-         g2.fillRect(765, 25, 20, 750);
+         g2.fillRect(0, 25, 20, 800);
+         g2.fillRect(765, 25, 20, 800);
          
          p.draw(g);
       }
@@ -393,10 +398,15 @@ class Game extends JPanel implements KeyListener, Runnable
          o.st3="YOUR SCORE: "+o.your_score;
          o.draw(g);
          g.setColor(Color.black);
-         
          g.drawString(o.st4, 200, 600);
          g.setColor(Color.red);
-         g.drawString(o.st4, 197, 600);
+         g.drawString(o.st4, 196, 600);
+         
+         g.setColor(Color.black);
+         g.drawString(o.st5, 190, 650);
+         g.setColor(Color.red);
+         g.drawString(o.st5, 186, 650);
+         /* 점수기록 */
       }
    }
 
@@ -470,20 +480,24 @@ class Game extends JPanel implements KeyListener, Runnable
             if (p.x-80<=20)
                p.x=20;
             else
-               p.x-=80;
+               p.x-=60;
          }
          else if (e.getKeyCode()==KeyEvent.VK_RIGHT)
          {
             if (p.x+p.xsize>=700)
                p.x=635;
             else
-               p.x+=80;
+               p.x+=60;
          }
       }
       p.resetball();
       repaint();
    }
-   @Override
+protected void dispose() {
+	// TODO Auto-generated method stub
+	
+}
+@Override
    public void keyReleased(KeyEvent e) {
       // TODO Auto-generated method stub
       
@@ -512,15 +526,15 @@ class Game extends JPanel implements KeyListener, Runnable
             {
                mode=GAME_OVER;
             }
-            // 스테이지별 볼 움직임 속도 증가
+            // 스테이지 별 볼 움직임 속도 증가
             if (p.stage==1)
                a=8;
             else if (p.stage==2)
-               a=7;
+               a=6;
             else if (p.stage==3)
-               a=5;
-            else if (p.stage==4)
                a=4;
+            else if (p.stage==4)
+               a=3;
             
             // 바닥을 넘어갈 시 볼 배열에서 볼 삭제
             for (int i=0; i<p.ball.size(); i++)
@@ -529,7 +543,7 @@ class Game extends JPanel implements KeyListener, Runnable
             }
             for (int i=0; i<p.ball.size(); i++)
             {
-               if (p.ball.get(i).by>750)
+               if (p.ball.get(i).by>800)
                {
                   p.ball.remove(i);
                   
@@ -548,24 +562,39 @@ class Game extends JPanel implements KeyListener, Runnable
       } 
    }
 }
+
 class BlockGameFrame extends JFrame
 {
-   Game p;
-   BlockGameFrame()
+   public String userName;
+   public JLabel u_name = new JLabel("NAME : ", JLabel.CENTER);
+   Font font=new Font("stencil", Font.BOLD, 25);
+   
+   BlockGameFrame(String name)
    {
-      p=new Game();
-      setSize(800,750);
+	  this.userName = name;
+	  u_name.setText("name : "+name);
+      Game G = new Game();
+      setSize(800,820);
       setTitle("블럭 부수기");
       setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
       setVisible(true);
-      add(p);
-      p.setFocusable(true);
+      G.addKeyListener(new KeyAdapter() {
+    	  public void keyPressed(KeyEvent e) {
+    		  if(G.mode==G.GAME_OVER)
+    			  if(e.getKeyCode()==KeyEvent.VK_SPACE) dispose();
+    	  }});
+      add(G);
+      G.setFocusable(true);
+      u_name.setFont(font);
+      u_name.setForeground(Color.WHITE);
+      G.setLayout(new BorderLayout());
+      G.add(u_name, BorderLayout.SOUTH);
+      
    }
+
 }
 public class BlockCrash {
-
-   public static void main(String[] args) {
-      BlockGameFrame BGf = new BlockGameFrame();
-
-   	}
+	/*public static void main(String[] args) {
+	BlockGameFrame v = new BlockGameFrame("ㄱㄱㄱㄱ"); 
+	}*/
 }
