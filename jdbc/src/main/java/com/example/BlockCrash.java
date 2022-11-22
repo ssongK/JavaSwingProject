@@ -22,63 +22,64 @@ abstract class block_breaker
    void draw(Graphics g) {};
 }
 // 블럭 클래스 
-class Rect
+class Block
 {
-   Rect(Point p, boolean tf)
+   Block(Point p, boolean tf)
    {
       pt=p;
-      yellow=tf;
+      red=tf;
    }
    Point pt=new Point();
-   boolean yellow=false;
+   boolean red=false;
 }
 // 볼 클래스
 class Ball
 {
-   int bx=400;
-   int by=650;
-   int br=10;
-   int ballcenter=(bx+br/2);
+   int ballx=400;
+   int bally=650;
+   int ball_size=10;
+   int ballcenter=(ballx+ball_size/2);
    Point []pt=new Point[4];
-   int dx=-1;
-   int dy=3;
+   int ball_bouncex=-1;
+   int ball_bouncey=3;
    
    Ball()
    {
-      pt[0]=new Point(bx, by+(br/2));
-      pt[1]=new Point(bx+(br/2), by);
-      pt[2]=new Point(bx+br, by+(br/2));
-      pt[3]=new Point(bx+(br/2), by+br);
+      pt[0]=new Point(ballx, bally+(ball_size/2));
+      pt[1]=new Point(ballx+(ball_size/2), bally);
+      pt[2]=new Point(ballx+ball_size, bally+(ball_size/2));
+      pt[3]=new Point(ballx+(ball_size/2), bally+ball_size);
    }
    Ball(int x, int y, int _dx, int _dy) // item 블럭 획득시 볼 생성 위치
    {
-      bx=x;
-      by=y;
-      ballcenter=(bx+br/2);
-      dx=_dx;
-      dy=_dy;
+      ballx=x;
+      bally=y;
+      ballcenter=(ballx+ball_size/2);
+      ball_bouncex=_dx;
+      ball_bouncey=_dy;
       
-      pt[0]=new Point(bx, by+(br/2));
-      pt[1]=new Point(bx+(br/2), by);
-      pt[2]=new Point(bx+br, by+(br/2));
-      pt[3]=new Point(bx+(br/2), by+br);
+      pt[0]=new Point(ballx, bally+(ball_size/2));
+      pt[1]=new Point(ballx+(ball_size/2), bally);
+      pt[2]=new Point(ballx+ball_size, bally+(ball_size/2));
+      pt[3]=new Point(ballx+(ball_size/2), bally+ball_size);
    }
 }
 
 // 게임 실행
 class Play extends block_breaker
 {
-   LinkedList<Rect> rt=new LinkedList<Rect>();
+   LinkedList<Block> block=new LinkedList<Block>();
    LinkedList<Ball> ball=new LinkedList<Ball>();
    // bar 사이즈 
    int x=350, y=670;
    int xsize=130, ysize=25;
    int score=0; 
    
-   int stage=1; //스테이지
+   int stage=5; //스테이지
+   
+   int bl_sizex, bl_sizey;
    
    //bar 분할 
-   int bx_size, by_size;
    int n=xsize/5;
    int x1=x+n;
    int x2=x1+n;
@@ -90,8 +91,8 @@ class Play extends block_breaker
    {
       Ball b=new Ball();
       ball.add(b);
-      bx_size=180;
-      by_size=60;
+      bl_sizex=180;
+      bl_sizey=60;
       int item_bl=0; //아이템 블럭 갯수
       
       // stage 1 블럭 생성
@@ -99,14 +100,14 @@ class Play extends block_breaker
       {
          for (int x=0; x<4; x++)
          {         
-            Point c=new Point(25+(bx_size*x)+(5*x),25+(5*y)+(by_size*y));
+            Point c=new Point(25+(bl_sizex*x)+(5*x),25+(5*y)+(bl_sizey*y));
             boolean temp=false;
             if (item_bl%5==0) //아이템 블럭 생성 조건
                temp=true;
             else
                temp=false;
-            Rect r=new Rect(c, temp);
-            rt.add(r);
+            Block r=new Block(c, temp);
+            block.add(r);
             item_bl++;
          }
       }
@@ -116,7 +117,7 @@ class Play extends block_breaker
    void resetball()
    {
       for (int i=0; i<ball.size(); i++)
-         ball.get(i).ballcenter=(ball.get(i).bx+(ball.get(i).br/2));
+         ball.get(i).ballcenter=(ball.get(i).ballx+(ball.get(i).ball_size/2));
       
       // 볼의 위치
       for (int i=0; i<ball.size(); i++)
@@ -124,47 +125,47 @@ class Play extends block_breaker
     	  if (ball.size()<=0)
     		  break;
     	 // 볼 이동시 panel사이즈 내에서 움직이게 하는 조건
-         if (ball.get(i).by+ball.get(i).br>=670 && ball.get(i).by+ball.get(i).br <= 695 && ball.get(i).ballcenter>=x && ball.get(i).ballcenter<=x+xsize)
+         if (ball.get(i).bally+ball.get(i).ball_size>=670 && ball.get(i).bally+ball.get(i).ball_size <= 695 && ball.get(i).ballcenter>=x && ball.get(i).ballcenter<=x+xsize)
          {   
         	 
-            ball.get(i).by=650;
-            ball.get(i).dy=-ball.get(i).dy;
+            ball.get(i).bally=650;
+            ball.get(i).ball_bouncey=-ball.get(i).ball_bouncey;
             // bar의 위치에 따른 튕김 방향 조절
             if ( x<=ball.get(i).ballcenter && x1>=ball.get(i).ballcenter)
-               ball.get(i).dx=-3;
+               ball.get(i).ball_bouncex=-3;
             else if (x1<ball.get(i).ballcenter && ball.get(i).ballcenter<=x2)
-               ball.get(i).dx=-1;
+               ball.get(i).ball_bouncex=-1;
             else if (x2<ball.get(i).ballcenter && ball.get(i).ballcenter<=x3)
-               ball.get(i).dx=1;
+               ball.get(i).ball_bouncex=1;
             else if (x3<ball.get(i).ballcenter && ball.get(i).ballcenter<=x4)
-               ball.get(i).dx=2;
+               ball.get(i).ball_bouncex=2;
             else if (x4<ball.get(i).ballcenter && ball.get(i).ballcenter<=x5)
-               ball.get(i).dx=3;
+               ball.get(i).ball_bouncex=3;
          }
       }
       // 바에 부딫히는 위치에 따라 볼의 방향 바꾸기
       for (int i=0; i<ball.size(); i++)
       {
-         if (ball.get(i).bx<20 || ball.get(i).bx>=780-ball.get(i).br*2)
-            ball.get(i).dx=-ball.get(i).dx;
-         if (ball.get(i).by<20)
+         if (ball.get(i).ballx<20 || ball.get(i).ballx>=780-ball.get(i).ball_size*2)
+            ball.get(i).ball_bouncex=-ball.get(i).ball_bouncex;
+         if (ball.get(i).bally<20)
          {
-            ball.get(i).by=20;
-            ball.get(i).dy=-ball.get(i).dy;
+            ball.get(i).bally=20;
+            ball.get(i).ball_bouncey=-ball.get(i).ball_bouncey;
          }
       }
       for (int i=0; i<ball.size(); i++)
       {
-         ball.get(i).bx+=ball.get(i).dx;
-         ball.get(i).pt[0]=new Point(ball.get(i).bx, ball.get(i).by+(ball.get(i).br/2));
-         ball.get(i).pt[1]=new Point(ball.get(i).bx+(ball.get(i).br/2), ball.get(i).by);
-         ball.get(i).pt[2]=new Point(ball.get(i).bx+ball.get(i).br, ball.get(i).by+(ball.get(i).br/2));
-         ball.get(i).pt[3]=new Point(ball.get(i).bx+(ball.get(i).br/2), ball.get(i).by+ball.get(i).br);
+         ball.get(i).ballx+=ball.get(i).ball_bouncex;
+         ball.get(i).pt[0]=new Point(ball.get(i).ballx, ball.get(i).bally+(ball.get(i).ball_size/2));
+         ball.get(i).pt[1]=new Point(ball.get(i).ballx+(ball.get(i).ball_size/2), ball.get(i).bally);
+         ball.get(i).pt[2]=new Point(ball.get(i).ballx+ball.get(i).ball_size, ball.get(i).bally+(ball.get(i).ball_size/2));
+         ball.get(i).pt[3]=new Point(ball.get(i).ballx+(ball.get(i).ball_size/2), ball.get(i).bally+ball.get(i).ball_size);
       }
       
       collision_block();
       
-      if (rt.size()<=0) //블럭이 없으면 다음 스테이지
+      if (block.size()<=0) //블럭이 없으면 다음 스테이지
       {
          stage++;
          nextstage();
@@ -177,24 +178,24 @@ class Play extends block_breaker
       {  
          for (int i=0; i<4; i++) // 블럭충돌 검사와 해당 블럭 지우기
          {
-            for (int j=0; j<rt.size(); j++)
+            for (int j=0; j<block.size(); j++)
             {
-               if (collision(rt.get(j).pt, bx_size, by_size, ball.get(ij).pt[i]))
+               if (collision(block.get(j).pt, bl_sizex, bl_sizey, ball.get(ij).pt[i]))
                {
                   score+=10;
                   if (i==1 || i==3)
-                     ball.get(ij).dy=-ball.get(ij).dy;
+                     ball.get(ij).ball_bouncey=-ball.get(ij).ball_bouncey;
                   else if (i==0 || i==2)
-                     ball.get(ij).dx=-ball.get(ij).dx;
+                     ball.get(ij).ball_bouncex=-ball.get(ij).ball_bouncex;
                   
-                  if (rt.get(j).yellow==true)
+                  if (block.get(j).red==true)
                   {
-                     Ball b1=new Ball(ball.get(ij).bx-50, ball.get(ij).by, ball.get(ij).dx, ball.get(ij).dy);
-                     Ball b2=new Ball(ball.get(ij).bx+50, ball.get(ij).by, ball.get(ij).dx, ball.get(ij).dy);
+                     Ball b1=new Ball(ball.get(ij).ballx-50, ball.get(ij).bally, ball.get(ij).ball_bouncex, ball.get(ij).ball_bouncey);
+                     Ball b2=new Ball(ball.get(ij).ballx+50, ball.get(ij).bally, ball.get(ij).ball_bouncex, ball.get(ij).ball_bouncey);
                      ball.add(b1);
                      ball.add(b2);
                   }
-                  rt.remove(j);
+                  block.remove(j);
                }
             }
          }
@@ -206,73 +207,95 @@ class Play extends block_breaker
    {
       ball.removeAll(ball);
       Ball b=new Ball();
-      b.bx=x+50;
-      b.by=640;
+      b.ballx=x+50;
+      b.bally=640;
       ball.add(b);
       
       if (stage==2)
       {
-         rt=new LinkedList<Rect>();
-         int cc2=0;
-         bx_size=119;
-         by_size=50;
+         block=new LinkedList<Block>();
+         int item_bl2=0;
+         bl_sizex=119;
+         bl_sizey=50;
          for (int y=0; y<6; y++)
          {
             for (int x=0; x<6; x++)
             {
-               Point c=new Point(20+(bx_size*x)+(5*x),20+(5*y)+(by_size*y));
+               Point c=new Point(20+(bl_sizex*x)+(5*x),20+(5*y)+(bl_sizey*y));
                boolean temp=false;
-               if (cc2%4==0)
+               if (item_bl2%4==0)
                   temp=true;
                else
                   temp=false;
-               Rect r=new Rect(c, temp);
-               rt.add(r);
-               cc2++;
+               Block r=new Block(c, temp);
+               block.add(r);
+               item_bl2++;
             }
          }
       }
       else if (stage==3)
       {
-         rt=new LinkedList<Rect>();
-         bx_size=77;
-         by_size=40;
-         int cc=0;
+         block=new LinkedList<Block>();
+         bl_sizex=77;
+         bl_sizey=40;
+         int item_bl3=0;
          for (int y=0; y<9; y++)
          {
             for (int x=0; x<9; x++)
             {
-               Point c=new Point(20+(bx_size*x)+(5*x),20+(5*y)+(by_size*y));
+               Point c=new Point(20+(bl_sizex*x)+(5*x),20+(5*y)+(bl_sizey*y));
                boolean temp=false;
-               if (cc%7==0)
+               if (item_bl3%7==0)
                   temp=true;
                else
                   temp=false;
-               Rect r=new Rect(c, temp);
-               rt.add(r);
-               cc++;
+               Block r=new Block(c, temp);
+               block.add(r);
+               item_bl3++;
             }
          }
       }
       else if (stage==4)
       {
-         rt=new LinkedList<Rect>();
-         bx_size=57;
-         by_size=35;
-         int cc=0;
+         block=new LinkedList<Block>();
+         bl_sizex=57;
+         bl_sizey=35;
+         int item_bl4=0;
          for (int y=0; y<12; y++)
          {
             for (int x=0; x<12; x++)
             {
-               Point c=new Point(20+(bx_size*x)+(5*x),20+(5*y)+(by_size*y));
+               Point c=new Point(20+(bl_sizex*x)+(5*x),20+(5*y)+(bl_sizey*y));
                boolean temp=false;
-               if (cc%7==0)
+               if (item_bl4%7==0)
                   temp=true;
                else
                   temp=false;
-               Rect r=new Rect(c, temp);
-               rt.add(r);
-               cc++;
+               Block r=new Block(c, temp);
+               block.add(r);
+               item_bl4++;
+            }
+         }
+      }
+      else if (stage==5)
+      {
+         block=new LinkedList<Block>();
+         bl_sizex=45;
+         bl_sizey=10;
+         int item_bl5=0;
+         for (int y=0; y<15; y++)
+         {
+            for (int x=0; x<15; x++)
+            {
+               Point c=new Point(20+(bl_sizex*x)+(5*x),20+(5*y)+(bl_sizey*y));
+               boolean temp=false;
+               if (item_bl5%8==0)
+                  temp=true;
+               else
+                  temp=false;
+               Block r=new Block(c, temp);
+               block.add(r);
+               item_bl5++;
             }
          }
       }
@@ -291,27 +314,27 @@ class Play extends block_breaker
    void draw (Graphics g)
    {
       Graphics2D g2=(Graphics2D)g;
-      for (Rect r: rt)
+      for (Block r: block)
       {
-         if (r.yellow)
+         if (r.red)
          {
-            GradientPaint gp=new GradientPaint(r.pt.x,r.pt.y,Color.ORANGE,r.pt.x+bx_size,r.pt.y+by_size,Color.RED); // item 블럭 색깔
+            GradientPaint gp=new GradientPaint(r.pt.x,r.pt.y,Color.ORANGE,r.pt.x+bl_sizex,r.pt.y+bl_sizey,Color.RED); // item 블럭 색깔
             g2.setPaint(gp);
          }
          else
          {
-            GradientPaint gp=new GradientPaint(r.pt.x,r.pt.y,Color.GREEN,r.pt.x+bx_size,r.pt.y+by_size,Color.GRAY); // 일반 블럭 색깔
+            GradientPaint gp=new GradientPaint(r.pt.x,r.pt.y,Color.GREEN,r.pt.x+bl_sizex,r.pt.y+bl_sizey,Color.GRAY); // 일반 블럭 색깔
             g.setColor(Color.BLACK);
             g2.setPaint(gp);
          }
-         g2.fillRoundRect(r.pt.x, r.pt.y, bx_size, by_size, 10, 10);
+         g2.fillRoundRect(r.pt.x, r.pt.y, bl_sizex, bl_sizey, 10, 10);
       }
       resetball();
       g2.setColor(Color.pink);
       g2.fillRoundRect(x, y, xsize, ysize, 10, 10);
       g2.setColor(Color.WHITE);
       for (int i=0; i<ball.size(); i++)
-         g2.fillOval(ball.get(i).bx, ball.get(i).by, ball.get(i).br, ball.get(i).br);
+         g2.fillOval(ball.get(i).ballx, ball.get(i).bally, ball.get(i).ball_size, ball.get(i).ball_size);
    }
 }
 
@@ -422,37 +445,37 @@ class Game extends JPanel implements KeyListener, Runnable
       {
     	  if (mode==GAME_OVER)
          {
-            for (int i=0; i<p.rt.size(); i++)
-               p.rt.remove(i); //게임오버시 남은 블럭 삭제
+            for (int i=0; i<p.block.size(); i++)
+               p.block.remove(i); //게임오버시 남은 블럭 삭제
             
             //게임오버시 스테이지 1 재생성
             score=0;
             p.score=0;
             
-            p.bx_size=180;
-            p.by_size=60;
+            p.bl_sizex=180;
+            p.bl_sizey=60;
             
-            p.rt=new LinkedList<Rect>();
+            p.block=new LinkedList<Block>();
             int item_bl=0;
             for (int y=0; y<5; y++)
             {
                for (int x=0; x<4; x++)
-               {
-                  Point c=new Point(20+(p.bx_size*x)+(5*x),20+(5*y)+(p.by_size*y));
-                  boolean item=false;
-                  if (item_bl%5==0)
-                     item=true;
+               {         
+                  Point c=new Point(25+(p.bl_sizex*x)+(5*x),25+(5*y)+(p.bl_sizey*y));
+                  boolean temp=false;
+                  if (item_bl%5==0) //아이템 블럭 생성 조건
+                     temp=true;
                   else
-                     item=false;
-                  Rect r=new Rect(c, item);
-                  p.rt.add(r);
+                     temp=false;
+                  Block r=new Block(c, temp);
+                  p.block.add(r);
                   item_bl++;
                }
             }
             p.x=350;
             p.y=670;
             p.xsize=130;
-            p.ysize=20;
+            p.ysize=25;
             
             p.n=p.xsize/5;
             p.x1=p.x+p.n;
@@ -469,8 +492,8 @@ class Game extends JPanel implements KeyListener, Runnable
             p.y=670;
          
             p.stage=1;
-            p.bx_size=180;
-            p.by_size=60;
+            p.bl_sizex=180;
+            p.bl_sizey=60;
             
             mode=GAME_PLAY;
          }
@@ -525,7 +548,7 @@ protected void dispose() {
          }
          if (mode==GAME_PLAY)
          {
-            if (p.stage>=5) // 스테이지 4이후 종료
+            if (p.stage>=6) // 스테이지 4이후 종료
             {
                mode=GAME_OVER;
             }
@@ -538,15 +561,17 @@ protected void dispose() {
                a=4;
             else if (p.stage==4)
                a=3;
+            else if (p.stage==5)
+               a=2;
             
             // 바닥을 넘어갈 시 볼 배열에서 볼 삭제
             for (int i=0; i<p.ball.size(); i++)
             {
-               p.ball.get(i).by-=p.ball.get(i).dy;
+               p.ball.get(i).bally-=p.ball.get(i).ball_bouncey;
             }
             for (int i=0; i<p.ball.size(); i++)
             {
-               if (p.ball.get(i).by>800)
+               if (p.ball.get(i).bally>800)
                {
                   p.ball.remove(i);
                   
@@ -602,7 +627,7 @@ public class BlockCrash extends JFrame
       G.add(u_name, BorderLayout.SOUTH);
       
    }
-   // public static void main(String[] args) {
-	//    BlockCrash v = new BlockCrash("test"); 
-	// }
+   /**/public static void main(String[] args) {
+	    BlockCrash v = new BlockCrash("test"); 
+	/**/ }
 }
