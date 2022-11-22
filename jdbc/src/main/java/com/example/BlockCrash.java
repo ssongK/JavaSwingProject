@@ -356,15 +356,18 @@ class Game extends JPanel implements KeyListener, Runnable
    Over o = new Over();
    
    int score=0;
-
+   
+   public String userName;
+   
    final static int GAME_PLAY=1;
    final static int GAME_OVER=2;
    
    Thread G_Play=new Thread(this);
    int mode=GAME_PLAY;
    
-   Game()
-   {  
+   Game(String name)
+   {
+	  this.userName = name;
 	  G_Play.start();
       requestFocus();
       setFocusable(true);
@@ -407,6 +410,8 @@ class Game extends JPanel implements KeyListener, Runnable
          g.setColor(Color.red);
          g.drawString(o.st5, 186, 650);
          /* 점수기록 */
+         Jdbc j = new Jdbc();
+         j.saveGameScore("game2", score, userName);
       }
    }
 
@@ -563,17 +568,17 @@ protected void dispose() {
    }
 }
 
-class BlockGameFrame extends JFrame
+public class BlockCrash extends JFrame
 {
    public String userName;
    public JLabel u_name = new JLabel("NAME : ", JLabel.CENTER);
    Font font=new Font("stencil", Font.BOLD, 25);
    
-   BlockGameFrame(String name)
+   BlockCrash(String name)
    {
 	  this.userName = name;
-	  u_name.setText("name : "+name);
-      Game G = new Game();
+	  u_name.setText("NAME : "+name);
+      Game G = new Game(userName);
       setSize(800,820);
       setTitle("블럭 부수기");
       setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -581,7 +586,11 @@ class BlockGameFrame extends JFrame
       G.addKeyListener(new KeyAdapter() {
     	  public void keyPressed(KeyEvent e) {
     		  if(G.mode==G.GAME_OVER)
-    			  if(e.getKeyCode()==KeyEvent.VK_SPACE) dispose();
+    			  if(e.getKeyCode()==KeyEvent.VK_SPACE) {
+    				  G.G_Play.interrupt();
+    				  dispose();
+    				  
+    			  }
     	  }});
       add(G);
       G.setFocusable(true);
@@ -591,10 +600,7 @@ class BlockGameFrame extends JFrame
       G.add(u_name, BorderLayout.SOUTH);
       
    }
-
-}
-public class BlockCrash {
-	/*public static void main(String[] args) {
-	BlockGameFrame v = new BlockGameFrame("ㄱㄱㄱㄱ"); 
-	}*/
+   public static void main(String[] args) {
+	   BlockCrash v = new BlockCrash("test"); 
+	}
 }
