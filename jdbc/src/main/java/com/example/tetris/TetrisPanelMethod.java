@@ -26,7 +26,7 @@ public class TetrisPanelMethod extends JPanel{
         this.score = 0;
         this.userName = userName;
 
-        setBackground(Color.ORANGE);
+        setBackground(Color.BLACK);
         setBounds(0,50,panelWidth,panelHeight);
 
         createBlock();
@@ -75,7 +75,7 @@ public class TetrisPanelMethod extends JPanel{
 
     // 격자 모양 라인 생성
     private void drawLine(Graphics g){
-        g.setColor(Color.CYAN);
+        g.setColor(Color.GRAY);
         for(int j=0; j<panelRow; j++){
             for(int i=0; i<panelCol; i++){
                 g.drawRect(i*blockSize, j*blockSize, blockSize, blockSize);
