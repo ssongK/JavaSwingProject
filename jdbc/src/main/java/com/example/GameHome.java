@@ -142,11 +142,11 @@ public class GameHome extends JFrame {
         public CenterPanel() {
             setLayout(new GridLayout(2, 2, 20, 20));
             
-            ImageIcon nomalGM1 = new ImageIcon("jdbc/classes/com/image/apple.jpg");   // 게임 이미지 어두운 배경으로 변경예정
-            ImageIcon rolloverGM1 = new ImageIcon("jdbc/classes/com/image/apple.jpg");  // 게임 이미지 밝은 화면으로 변경 예정
+            ImageIcon nomalGM1 = new ImageIcon("jdbc/src/main/java/com/image/tetris_black.png");   // 게임 이미지 어두운 배경으로 변경예정
+            ImageIcon rolloverGM1 = new ImageIcon("jdbc/src/main/java/com/image/tetris.png");  // 게임 이미지 밝은 화면으로 변경 예정
             
-            ImageIcon nomalGM2 = new ImageIcon("jdbc/classes/com/image/apple.jpg");
-            ImageIcon rolloverGM2 = new ImageIcon("jdbc/classes/com/image/apple.jpg");
+            ImageIcon nomalGM2 = new ImageIcon("jdbc/src/main/java/com/image/BlockCrash_black.png");
+            ImageIcon rolloverGM2 = new ImageIcon("jdbc/src/main/java/com/image/BlockCrash.png");
             
             ImageIcon nomalGM3 = new ImageIcon("jdbc/classes/com/image/apple.jpg");
             ImageIcon rolloverGM3 = new ImageIcon("jdbc/classes/com/image/apple.jpg");
