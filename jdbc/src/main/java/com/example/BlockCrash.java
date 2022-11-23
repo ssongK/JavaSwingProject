@@ -627,7 +627,7 @@ public class BlockCrash extends JFrame
       G.add(u_name, BorderLayout.SOUTH);
       
    }
-   /**/public static void main(String[] args) {
-	    BlockCrash v = new BlockCrash("test"); 
-	/**/ }
+   // public static void main(String[] args) {
+	//     BlockCrash v = new BlockCrash("test"); 
+	// }
 }

@@ -29,7 +29,7 @@ public class TetrisBlock {
 
     private int[][][] blockShapes = {L_block, J_block, O_block, T_block, S_block, Z_block, I_block};
     
-    private Color blockColor[] = {Color.MAGENTA, Color.GREEN, Color.GRAY, Color.RED, Color.WHITE};
+    private Color blockColor[] = {Color.MAGENTA, Color.GREEN, Color.ORANGE, Color.RED, Color.CYAN, Color.YELLOW};
 
     private int[][] shape;
     private Color color;
