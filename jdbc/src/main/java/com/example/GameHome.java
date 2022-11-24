@@ -26,6 +26,7 @@ public class GameHome extends JFrame {
         contentPane.add(centerPanel, BorderLayout.CENTER);
         
         setResizable(false);
+        setLocation(100,100);
         setSize(600,550);
         setVisible(true);    
     }
@@ -148,8 +149,8 @@ public class GameHome extends JFrame {
             ImageIcon nomalGM2 = new ImageIcon("jdbc/src/main/java/com/image/BlockCrash_black.png");
             ImageIcon rolloverGM2 = new ImageIcon("jdbc/src/main/java/com/image/BlockCrash.png");
             
-            ImageIcon nomalGM3 = new ImageIcon("jdbc/classes/com/image/apple.jpg");
-            ImageIcon rolloverGM3 = new ImageIcon("jdbc/classes/com/image/apple.jpg");
+            ImageIcon nomalGM3 = new ImageIcon("jdbc/src/main/java/com/image/topgun_black.png");
+            ImageIcon rolloverGM3 = new ImageIcon("jdbc/src/main/java/com/image/topgun.png");
             
             ImageIcon nomalGM4 = new ImageIcon("jdbc/classes/com/image/apple.jpg");
             ImageIcon rolloverGM4 = new ImageIcon("jdbc/classes/com/image/apple.jpg");
