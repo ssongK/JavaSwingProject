@@ -24,7 +24,8 @@ public class Tetris extends JFrame{
 
         setLayout(null);
         setResizable(false);
-        setBounds(0,0,310,528);
+        setSize(310,528);
+        setLocationRelativeTo(null); // 컴퓨터 화면 정가운데 실행
 
         add(new Header()); // 컨텐츠 팬의 상단 -> 유저 이름, 점수 표시
 

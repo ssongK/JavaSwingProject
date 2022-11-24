@@ -26,7 +26,6 @@ public class GameHome extends JFrame {
         contentPane.add(centerPanel, BorderLayout.CENTER);
         
         setResizable(false);
-        setLocation(100,100);
         setSize(600,550);
         setLocationRelativeTo(null); // 컴퓨터 화면 정가운데 실행
         setVisible(true);    

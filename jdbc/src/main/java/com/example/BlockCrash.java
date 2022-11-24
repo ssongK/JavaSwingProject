@@ -519,20 +519,13 @@ class Game extends JPanel implements KeyListener, Runnable
       p.resetball();
       repaint();
    }
-protected void dispose() {
-	// TODO Auto-generated method stub
-	
-}
-@Override
-   public void keyReleased(KeyEvent e) {
-      // TODO Auto-generated method stub
-      
-   }
+
    @Override
-   public void keyTyped(KeyEvent e) {
-      // TODO Auto-generated method stub
-      
-   }
+   public void keyReleased(KeyEvent e) {}
+   
+   @Override
+   public void keyTyped(KeyEvent e) {}
+
    @Override
    public void run() {
       
