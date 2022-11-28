@@ -5,22 +5,42 @@ import java.awt.*;
 import javax.swing.*;
 
 public class TopGun extends JFrame {
-    int xbound, ybound, n = 0, count = 30;
-    boolean stop = true;
+    int xbound, ybound, n, count;
+    boolean start = false;
     int i;
     int [] X = new int[200];
     int [] Y = new int[200];
-    JLabel player, timer, boolit;
+    JLabel player, timer, boolit, set;
     JLabel [] la = new JLabel[200];
-    MoveThread[] th = new MoveThread[200];
+    MoveThread[] th;
+    TimerThread thTime;
+    Container c = getContentPane();
     public TopGun(){
         setTitle("총알 피하기 게임");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container c = getContentPane();
         c.setLayout(null); 
         c.setBackground(Color.BLACK);
+        for(int i = 0; i < 200; i++){
+            la[i] = new JLabel(new ImageIcon("jdbc/src/main/java/com/image/bubble.jpg"));
+        }
+        player = new JLabel(new ImageIcon("jdbc/src/main/java/com/image/apple.jpg"));
+        timer = new JLabel();
+        boolit = new JLabel();
+        set = new JLabel("시작 하려면 ENTER 키를 누르세요.");
+        set.setFont(new Font("Gothic", Font.ITALIC, 20));
+        set.setForeground(Color.WHITE);
+        set.setBounds(210, 335, 500,30);
+        set.setVisible(true);
+        c.add(set);
         setSize(700,700);
         setVisible(true);
+        c.setFocusable(true);
+        c.requestFocus();
+        c.addKeyListener(new EnterKeyListener());
+    }
+    void restart(){
+        n = 0; count = 30;
+        Container c = getContentPane();
         c.setFocusable(true);
         c.requestFocus();
         set();
@@ -28,24 +48,22 @@ public class TopGun extends JFrame {
         startTread();
     }
     void set(){
-        Container c = getContentPane();
         xbound = c.getWidth();
         ybound = c.getHeight();
         for(int i=0; i<count; i++){
             xy(i);
-            la[i] = new JLabel(new ImageIcon("jdbc/src/main/java/com/image/bubble.jpg"));
             la[i].setBounds(X[i], Y[i], 10,10);
+            System.out.println(i + " : " + la[i].getX() + ", " + la[i].getY());
             c.add(la[i]);
         }
-        player = new JLabel(new ImageIcon("jdbc/src/main/java/com/image/apple.jpg"));
         player.setBounds(xbound / 2, ybound / 2, 10,10);
         c.add(player);
-        timer = new JLabel("0");
+        timer.setText("시간 : " + Integer.toString(n) + "초");
         timer.setFont(new Font("Gothic", Font.ITALIC, 20));
         timer.setForeground(Color.WHITE);
         timer.setBounds(xbound - 260, ybound - 30, 120,30);
         c.add(timer);
-        boolit = new JLabel("30");
+        boolit.setText("총알 : " + Integer.toString(count) + "개");
         boolit.setFont(new Font("Gothic", Font.ITALIC, 20));
         boolit.setForeground(Color.WHITE);
         boolit.setBounds(xbound - 130, ybound - 30, 120, 30);
@@ -71,9 +89,17 @@ public class TopGun extends JFrame {
                 break;
         }
     }
+    class EnterKeyListener extends KeyAdapter{
+        public void keyPressed(KeyEvent e){
+            if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                start = true;
+                set.setVisible(false);
+                restart();
+            }
+        }
+    }
     class MyKeyListener extends KeyAdapter{
         public void keyPressed(KeyEvent e){
-            if(stop == false) return;
             int keyCode = e.getKeyCode();
             int x1, y1;
             x1 = player.getX();
@@ -105,9 +131,7 @@ public class TopGun extends JFrame {
                     break;
             }
             check();
-            if(stop == false){
-                return;
-            }
+            if(!start) return;
         }
     }
     void check(){
@@ -115,7 +139,7 @@ public class TopGun extends JFrame {
         for(int i=0; i<count; i++){
             a1 = player.getX(); b1 = player.getY(); a2 = X[i]; b2 = Y[i];
             if((a1 >= a2 - 10 && a1 <= a2 + 10) && (b1 >= b2 - 10 && b1 <= b2 + 10)){
-                stop = false;
+                start = false;
             }
         }
     }
@@ -123,16 +147,15 @@ public class TopGun extends JFrame {
         @Override
         public void run(){
             i = count;
-            Container c = getContentPane();
             while(true){
                 timer.setText("시간 : " + Integer.toString(n) + "초");
                 boolit.setText("총알 : " + Integer.toString(count) + "개");
                 n++;
                 count = (n/3) + 30;
+                System.out.println(n + "ok");
                 if(i < count){
                     System.out.println("count : " + count );
                     xy(i);
-                    la[i] = new JLabel(new ImageIcon("jdbc/src/main/java/com/image/bubble.jpg"));
                     la[i].setBounds(X[i], Y[i], 10,10);
                     c.add(la[i]);
                     th[i] = new MoveThread();
@@ -145,11 +168,10 @@ public class TopGun extends JFrame {
                 } catch(InterruptedException e){
                     return;
                 }
-                if(stop == false){
+                if(!start){
                     int restart = JOptionPane.showConfirmDialog(null, "계속할 것입니까?", "End", JOptionPane.YES_NO_OPTION);
-                    if(restart==JOptionPane.YES_OPTION){}
-                        // restart
-                    else dispose();
+                    if(restart==JOptionPane.YES_OPTION) {stopThread(); restart();}
+                    else {stopThread(); dispose();}     // thread.안터럽트
                     return;
                 }
             }
@@ -201,7 +223,7 @@ public class TopGun extends JFrame {
                         y1 = ((y - Y1) / 10)/ 6;
                         if(x1 == 0) x1 = 1;
                         if(y1 == 0) {if(y - Y1 < 0)y1 = -1; else y1 = 1;}
-                        while(X1 > x && stop){
+                        while(X1 > x && start){
                             try{
                                 Thread.sleep(speed);
                             } catch(InterruptedException e){return;}        
@@ -219,7 +241,7 @@ public class TopGun extends JFrame {
                         y1 = ((int)(Math.abs(Y1 + Math.abs(y))) / 10)/ 6;
                         if(x1 == 0) {if(x - X1 < 0)x1 = -1; else x1 = 1;}
                         if(y1 == 0) y1 = 1;
-                        while(Y1 > y && stop){
+                        while(Y1 > y && start){
                             try{
                                 Thread.sleep(speed);
                             } catch(InterruptedException e){return;}        
@@ -237,7 +259,7 @@ public class TopGun extends JFrame {
                         y1 = ((y - Y1) / 10) / 6;
                         if(x1 == 0) {if(x - X1 < 0)x1 = -1; else x1 = 1;}
                         if(y1 == 0) {if(y - Y1 < 0)y1 = -1; else y1 = 1;}
-                        while(X1 < x && stop){
+                        while(X1 < x && start){
                             try{
                                 Thread.sleep(speed);
                             } catch(InterruptedException e){return;}        
@@ -255,7 +277,7 @@ public class TopGun extends JFrame {
                         y1 = ((y - Y1) / 10) / 6;
                         if(x1 == 0) {if(x - X1 < 0)x1 = -1; else x1 = 1;}
                         if(y1 == 0) {if(y - Y1 < 0)y1 = -1; else y1 = 1;}
-                        while(Y1 < y && stop){
+                        while(Y1 < y && start){
                             try{
                                 Thread.sleep(speed);
                             } catch(InterruptedException e){return;}        
@@ -272,13 +294,22 @@ public class TopGun extends JFrame {
         }
     }
     void startTread(){
+        th = new MoveThread[200];
         for(int i = 0; i<count; i++){
             th[i] = new MoveThread();
             th[i].moveThread(i);
             th[i].start();
         }
-        TimerThread thTime = new TimerThread();
+        thTime = new TimerThread(); 
         thTime.start();
+    }
+    void stopThread(){
+        for(int i=0; i<count; i++){
+            th[i].interrupt();
+            la[i].setLocation(-20, -20);
+        }
+        thTime.interrupt();
+        n = 0; count = 30;
     }
     public static void main(String[] args) {
         new TopGun();
