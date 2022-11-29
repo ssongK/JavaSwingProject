@@ -10,7 +10,7 @@ public class TetrisThread extends Thread{
 
     @Override
     public void run() {
-        int speed = 600; // 떨어지는 속도 초기화(0.6초)
+        int speed = 700; // 떨어지는 속도 초기화(0.7초)
         tp.resetPanel(); // 테트리스 판 초기화
         while(true){
             tp.createBlock(); // 블록 생성
@@ -22,7 +22,6 @@ public class TetrisThread extends Thread{
                 }
                 catch(InterruptedException ex) { return; }
                 if(speed>100) speed -= 1;
-                System.out.println(speed);
             }   
 
             if(tp.checkGameOver()){
