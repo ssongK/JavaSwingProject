@@ -10,18 +10,21 @@ public class TetrisThread extends Thread{
 
     @Override
     public void run() {
-        // 테트리스 판 초기화
-        tp.resetPanel();
+        int speed = 600; // 떨어지는 속도 초기화(0.6초)
+        tp.resetPanel(); // 테트리스 판 초기화
         while(true){
-            // 블록 생성
-            tp.createBlock();
-            // 블록 떨어짐(0.5초마다)
+            tp.createBlock(); // 블록 생성
+
+            // 블록 떨어짐(0.5초에서 점점 빨라짐)
             while(tp.dropBlock()){
                 try{
-                    Thread.sleep(500);
+                    Thread.sleep(speed);
                 }
                 catch(InterruptedException ex) { return; }
+                if(speed>100) speed -= 1;
+                System.out.println(speed);
             }   
+
             if(tp.checkGameOver()){
                 tp.showResult();
                 tp.setFocusable(false);
