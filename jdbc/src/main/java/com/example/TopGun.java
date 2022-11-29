@@ -5,8 +5,8 @@ import java.awt.*;
 import javax.swing.*;
 
 public class TopGun extends JFrame {
-    int xbound, ybound, n, count;
-    boolean start = false;
+    int xbound, ybound, n, count, px, py;
+    boolean start = false, left = false, right = false, up = false, down = false;
     int i;
     int [] X = new int[200];
     int [] Y = new int[200];
@@ -14,6 +14,7 @@ public class TopGun extends JFrame {
     JLabel [] la = new JLabel[200];
     MoveThread[] th;
     TimerThread thTime;
+    KeyThread thKey;
     Container c = getContentPane();
     public TopGun(){
         setTitle("총알 피하기 게임");
@@ -23,7 +24,7 @@ public class TopGun extends JFrame {
         for(int i = 0; i < 200; i++){
             la[i] = new JLabel(new ImageIcon("jdbc/src/main/java/com/image/bubble.jpg"));
         }
-        player = new JLabel(new ImageIcon("jdbc/src/main/java/com/image/apple.jpg"));
+        player = new JLabel(new ImageIcon("jdbc/src/main/java/com/image/apple2.png"));
         timer = new JLabel();
         boolit = new JLabel();
         set = new JLabel("시작 하려면 ENTER 키를 누르세요.");
@@ -40,6 +41,7 @@ public class TopGun extends JFrame {
     }
     void restart(){
         n = 0; count = 30;
+        start = true; left = false; right = false; up = false; down = false;
         Container c = getContentPane();
         c.setFocusable(true);
         c.requestFocus();
@@ -56,7 +58,7 @@ public class TopGun extends JFrame {
             System.out.println(i + " : " + la[i].getX() + ", " + la[i].getY());
             c.add(la[i]);
         }
-        player.setBounds(xbound / 2, ybound / 2, 10,10);
+        player.setBounds(xbound / 2, ybound / 2, 25,25);
         c.add(player);
         timer.setText("시간 : " + Integer.toString(n) + "초");
         timer.setFont(new Font("Gothic", Font.ITALIC, 20));
@@ -100,46 +102,86 @@ public class TopGun extends JFrame {
     }
     class MyKeyListener extends KeyAdapter{
         public void keyPressed(KeyEvent e){
-            int keyCode = e.getKeyCode();
-            int x1, y1;
-            x1 = player.getX();
-            y1 = player.getY();
-            switch(keyCode){
+            check();
+            switch(e.getKeyCode()){
                 case KeyEvent.VK_UP:
-                    if(y1 - 10 < 0)
-                        player.setLocation(player.getX(), 0);
-                    else
-                        player.setLocation(player.getX(),player.getY()-10);
+                    up = true;
                     break;
                 case KeyEvent.VK_DOWN:
-                    if(y1 + 10 > ybound - 10)
-                        player.setLocation(player.getX(),ybound - 10);
-                    else
-                        player.setLocation(player.getX(),player.getY()+10);
+                    down = true;
                     break;
                 case KeyEvent.VK_LEFT:
-                    if(x1 - 10 < 0)
-                        player.setLocation(0,player.getY());
-                    else
-                        player.setLocation(player.getX()-10,player.getY());
+                    left = true;
                     break;
                 case KeyEvent.VK_RIGHT:
-                    if(x1 + 10 > xbound - 10)
-                        player.setLocation(xbound - 10,player.getY());
-                    else
-                        player.setLocation(player.getX()+10,player.getY());
+                    right = true;
                     break;
             }
-            check();
-            if(!start) return;
         }
+        public void keyReleased(KeyEvent e) {
+            check();
+            switch(e.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                    left = false;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    right = false;
+                    break;
+                case KeyEvent.VK_UP:
+                    up = false;
+                    break;
+                case KeyEvent.VK_DOWN:
+                    down = false;
+                    break;
+            }
+        } 
+    }
+    public void keyControl() {
+        check();
+        if(!start) return;
+        px = player.getX();
+        py = player.getY();
+        if(left) {
+            if(px -10 <= 0)px = 0;
+            else px -= 10;
+        }
+        if(right) {
+             if(px + 10 >= xbound - 10) px = xbound-10;
+             else px += 10;
+        }
+        if(up) {
+            if(py - 10 <= 0) py = 0;
+            else py -= 10;
+        }
+        if(down) {
+            if(py + 10 >= ybound - 10) py = ybound-10;
+            else py += 10;
+        }
+        player.setLocation(px, py);
+        check();
+        if(!start) return;
     }
     void check(){
         int a1, a2, b1, b2;
         for(int i=0; i<count; i++){
             a1 = player.getX(); b1 = player.getY(); a2 = X[i]; b2 = Y[i];
             if((a1 >= a2 - 10 && a1 <= a2 + 10) && (b1 >= b2 - 10 && b1 <= b2 + 10)){
-                start = false;
+               start = false; left = false; right = false; up = false; down = false;
+               return;
+            }
+        }
+    }
+    class KeyThread extends Thread{
+        @Override
+        public void run(){
+            while(true){
+                try{
+                    keyControl();
+                    check();
+                    Thread.sleep(70);
+                } catch(InterruptedException e){
+                    return;
+                }
             }
         }
     }
@@ -168,6 +210,7 @@ public class TopGun extends JFrame {
                 } catch(InterruptedException e){
                     return;
                 }
+                check();
                 if(!start){
                     int restart = JOptionPane.showConfirmDialog(null, "계속할 것입니까?", "End", JOptionPane.YES_NO_OPTION);
                     if(restart==JOptionPane.YES_OPTION) {stopThread(); restart();}
@@ -190,7 +233,7 @@ public class TopGun extends JFrame {
                 int x1, y1;
                 int num = 0;
                 
-                int speed = (int)(Math.random()*80 + 50);
+                int speed = (int)(Math.random()*20 + 50);
                 if(x < 0){
                     while(true){
                         num = (int)(Math.random()*3);
@@ -289,7 +332,6 @@ public class TopGun extends JFrame {
                         }
                         break;
                 }
-                
             }
         }
     }
@@ -300,6 +342,8 @@ public class TopGun extends JFrame {
             th[i].moveThread(i);
             th[i].start();
         }
+        thKey = new KeyThread(); 
+        thKey.start();
         thTime = new TimerThread(); 
         thTime.start();
     }
@@ -309,6 +353,7 @@ public class TopGun extends JFrame {
             la[i].setLocation(-20, -20);
         }
         thTime.interrupt();
+        thKey.interrupt();
         n = 0; count = 30;
     }
     public static void main(String[] args) {
