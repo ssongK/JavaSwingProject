@@ -6,8 +6,7 @@ import java.awt.event.KeyListener;
 
 public class CarGame extends JPanel implements KeyListener {
 
-    private int x=20 , y = 20 , x2 =60 , y2 = 60 ,sx=1, sy=1;
-    private int rx =220, ry =450 , life = 3 , score = 0 , i = 0;
+    private int rx =220, ry =450 , life = 3 , score = 0;
     private double ry1=-350, ry2=-2500 , ry3=-3700 ,ry4=-1300 ;
 
     public CarGame(){
@@ -25,16 +24,6 @@ public class CarGame extends JPanel implements KeyListener {
 
     public void paint(Graphics g){
         super.paint(g);
-
-        if(i==0){
-            g.setColor(Color.BLUE);
-            Font yFont = new Font("Courier New", 1, 50);
-            g.setFont(yFont);
-            g.drawString("Welcome", 160, 180);
-            Font yFon = new Font("Courier New", 1, 40);
-            g.setFont(yFon);
-            g.drawString("Car Game", 160, 250);    
-        }
 
         if(life>0) {
             //경계선
@@ -162,11 +151,11 @@ public class CarGame extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int c = e.getKeyCode();
 
-        if(c==KeyEvent.VK_M && rx+40 <= 350){
-            rx = rx + 7;
+        if(c==KeyEvent.VK_RIGHT && rx+40 <= 350){
+            rx = rx + 15;
         }
-        if(c==KeyEvent.VK_N && rx >= 130){
-            rx = rx - 7;
+        if(c==KeyEvent.VK_LEFT && rx >= 130){
+            rx = rx - 15;
         }
     }
 
