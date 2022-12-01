@@ -194,7 +194,7 @@ public class GameHome extends JFrame {
     			new BlockCrash(name);   // 패키지에 연결된 작성한 게임이름으로 변경후 사용
     		}
     		if(obj == btnGm3) {
-    			new TopGun();   // 패키지에 연결된 작성한 게임이름으로 변경후 사용
+    			new TopGun(name);   // 패키지에 연결된 작성한 게임이름으로 변경후 사용
     		}
     		if(obj == btnGm4) {
     		    CarGame cg = new CarGame();   // 패키지에 연결된 작성한 게임이름으로 변경후 사용

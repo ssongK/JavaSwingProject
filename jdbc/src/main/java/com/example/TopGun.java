@@ -10,23 +10,26 @@ public class TopGun extends JFrame {
     int i;
     int [] X = new int[200];
     int [] Y = new int[200];
-    JLabel player, timer, boolit, set;
+    String name;
+    JLabel player, timer, boolit, set, score;
     JLabel [] la = new JLabel[200];
     MoveThread[] th;
     TimerThread thTime;
     KeyThread thKey;
     Container c = getContentPane();
-    public TopGun(){
+    public TopGun(String name){
+        this.name = name;
         setTitle("총알 피하기 게임");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         c.setLayout(null); 
         c.setBackground(Color.BLACK);
         for(int i = 0; i < 200; i++){
-            la[i] = new JLabel(new ImageIcon("jdbc/src/main/java/com/image/bubble.jpg"));
+            la[i] = new JLabel(new ImageIcon("jdbc/src/main/java/com/image/boolit.jpg"));
         }
-        player = new JLabel(new ImageIcon("jdbc/src/main/java/com/image/apple2.png"));
+        player = new JLabel(new ImageIcon("jdbc/src/main/java/com/image/player.png"));
         timer = new JLabel();
         boolit = new JLabel();
+        score = new JLabel();
         set = new JLabel("시작 하려면 ENTER 키를 누르세요.");
         set.setFont(new Font("Gothic", Font.ITALIC, 20));
         set.setForeground(Color.WHITE);
@@ -70,6 +73,11 @@ public class TopGun extends JFrame {
         boolit.setForeground(Color.WHITE);
         boolit.setBounds(xbound - 130, ybound - 30, 120, 30);
         c.add(boolit);
+        score.setText(name + " : " + Integer.toString(n) + "점");
+        score.setFont(new Font("Gothic", Font.ITALIC, 20));
+        score.setForeground(Color.WHITE);
+        score.setBounds(20, 10, 200,30);
+        c.add(score);
     }
     void xy(int i){
         switch(i%4){
@@ -165,9 +173,11 @@ public class TopGun extends JFrame {
         int a1, a2, b1, b2;
         for(int i=0; i<count; i++){
             a1 = player.getX(); b1 = player.getY(); a2 = X[i]; b2 = Y[i];
-            if((a1 >= a2 - 10 && a1 <= a2 + 10) && (b1 >= b2 - 10 && b1 <= b2 + 10)){
-               start = false; left = false; right = false; up = false; down = false;
-               return;
+            for(int j=1; j<24; j++){
+                if((a1 + j >= a2 && a1 + j <= a2 + 10) && (b1 + j >= b2 && b1 + j <= b2 + 10)){
+                    start = false; left = false; right = false; up = false; down = false;
+                    return;
+                 }
             }
         }
     }
@@ -189,9 +199,12 @@ public class TopGun extends JFrame {
         @Override
         public void run(){
             i = count;
+            int sc;
             while(true){
+                sc = n*count/20;
                 timer.setText("시간 : " + Integer.toString(n) + "초");
                 boolit.setText("총알 : " + Integer.toString(count) + "개");
+                score.setText(name + " : " + Integer.toString(sc) + "점");
                 n++;
                 count = (n/3) + 30;
                 System.out.println(n + "ok");
@@ -212,7 +225,9 @@ public class TopGun extends JFrame {
                 }
                 check();
                 if(!start){
-                    int restart = JOptionPane.showConfirmDialog(null, "계속할 것입니까?", "End", JOptionPane.YES_NO_OPTION);
+                    Jdbc j = new Jdbc();
+                    j.saveGameScore("game3", sc, name);
+                    int restart = JOptionPane.showConfirmDialog(null, "[Score : "+sc + "] 계속할 것입니까?", "End", JOptionPane.YES_NO_OPTION);
                     if(restart==JOptionPane.YES_OPTION) {stopThread(); restart();}
                     else {stopThread(); dispose();}     // thread.안터럽트
                     return;
@@ -357,6 +372,6 @@ public class TopGun extends JFrame {
         n = 0; count = 30;
     }
     public static void main(String[] args) {
-        new TopGun();
+        new TopGun("mjc");
     }
 }

@@ -36,7 +36,7 @@ public class GameRank extends JFrame {
 		
 		
 		
-		pnBase.setSize(350, 500);
+		pnBase.setSize(400, 500);
 		pnBase.setLayout(new BorderLayout(0, 40));
 		pnBase.setBorder(BorderFactory.createEmptyBorder(30, 20, 20, 20)); // 상, 좌, 하, 우의 여백을 지정.
 		
@@ -105,7 +105,7 @@ public class GameRank extends JFrame {
 		pnlNorth.setBackground(pnBaseColor);
 		
 		
-		setBounds(750, 250, 350, 500);
+		setBounds(750, 250, 400, 500);
 		setVisible(true);
 		
 		MyHandler my = new MyHandler();
