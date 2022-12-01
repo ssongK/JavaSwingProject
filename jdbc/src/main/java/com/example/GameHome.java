@@ -152,8 +152,8 @@ public class GameHome extends JFrame {
             ImageIcon nomalGM3 = new ImageIcon("jdbc/src/main/java/com/image/topgun_black.png");
             ImageIcon rolloverGM3 = new ImageIcon("jdbc/src/main/java/com/image/topgun.png");
             
-            ImageIcon nomalGM4 = new ImageIcon("jdbc/classes/com/image/apple.jpg");
-            ImageIcon rolloverGM4 = new ImageIcon("jdbc/classes/com/image/apple.jpg");
+            ImageIcon nomalGM4 = new ImageIcon("jdbc/classes/com/image/cargame_black.jpg");
+            ImageIcon rolloverGM4 = new ImageIcon("jdbc/classes/com/image/cargame.jpg");
             
             btnGm1 = new JButton(nomalGM1);
             add(btnGm1);
@@ -197,8 +197,8 @@ public class GameHome extends JFrame {
     			new TopGun(name);   // 패키지에 연결된 작성한 게임이름으로 변경후 사용
     		}
     		if(obj == btnGm4) {
-    		    CarGame cg = new CarGame();   // 패키지에 연결된 작성한 게임이름으로 변경후 사용
-                cg.main(null);
+    		    CarGame c = new CarGame(name);   // 패키지에 연결된 작성한 게임이름으로 변경후 사용
+                c.startGame();
     		}
   
     	}

@@ -14,10 +14,10 @@ public class GameRank extends JFrame {
 	JPanel pn3 = new JPanel();
 	JPanel pn4 = new JPanel();
 	JButton btFoot = new JButton("닫기");
-	JButton bt1 = new JButton("game1");
-	JButton bt2 = new JButton("game2");
-	JButton bt3 = new JButton("gmae3");
-	JButton bt4 = new JButton("game4");
+	JButton bt1 = new JButton("테트리스");
+	JButton bt2 = new JButton("벽돌깨기");
+	JButton bt3 = new JButton("총알피하기");
+	JButton bt4 = new JButton("차피하기");
 	JLabel lbHead = new JLabel("★랭킹 ★",JLabel.CENTER);
 	JLabel lbEasy = new JLabel("1위 : ",JLabel.CENTER);//여기에 1위 내용 추가
 	JLabel lbNormal = new JLabel("2위 : ",JLabel.CENTER);//여기에 2위 내용 추가
@@ -33,7 +33,6 @@ public class GameRank extends JFrame {
 		setResizable(false); //frame창을 사용자가 늘리고 줄이는 기능을 못하게 한것.
 		
 		cp.add(pnBase);
-		
 		
 		
 		pnBase.setSize(400, 500);
@@ -79,27 +78,27 @@ public class GameRank extends JFrame {
 		pnFoot.add(btFoot);
 		btFoot.setBackground(pnBaseColor);
 		
-		JPanel pnlNorth = new JPanel(new BorderLayout());	
+		JPanel pnlNorth = new JPanel();	
 		
-		pnlNorth.add(pn1, BorderLayout.WEST);
+		pnlNorth.add(pn1);
 		pn1.setBackground(pnBaseColor);
 		pn1.add(bt1);
 		bt1.setBackground(pnBaseColor);
 		
-		pnlNorth.add(pn2, BorderLayout.CENTER);
-		pn1.setBackground(pnBaseColor);
-		pn1.add(bt2);
-		bt1.setBackground(pnBaseColor);
+		pnlNorth.add(pn2);
+		pn2.setBackground(pnBaseColor);
+		pn2.add(bt2);
+		bt2.setBackground(pnBaseColor);
 		
-		pnlNorth.add(pn3, BorderLayout.CENTER);
-		pn1.setBackground(pnBaseColor);
-		pn1.add(bt3);
-		bt1.setBackground(pnBaseColor);
+		pnlNorth.add(pn3);
+		pn3.setBackground(pnBaseColor);
+		pn3.add(bt3);
+		bt3.setBackground(pnBaseColor);
 		
-		pnlNorth.add(pn4, BorderLayout.EAST);
-		pn1.setBackground(pnBaseColor);
-		pn1.add(bt4);
-		bt1.setBackground(pnBaseColor);
+		pnlNorth.add(pn4);
+		pn4.setBackground(pnBaseColor);
+		pn4.add(bt4);
+		bt4.setBackground(pnBaseColor);
 		
 		add(pnlNorth, BorderLayout.NORTH);
 		pnlNorth.setBackground(pnBaseColor);

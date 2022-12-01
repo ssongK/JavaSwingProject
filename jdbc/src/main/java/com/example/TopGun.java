@@ -20,7 +20,7 @@ public class TopGun extends JFrame {
     public TopGun(String name){
         this.name = name;
         setTitle("총알 피하기 게임");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         c.setLayout(null); 
         c.setBackground(Color.BLACK);
         for(int i = 0; i < 200; i++){
@@ -370,8 +370,5 @@ public class TopGun extends JFrame {
         thTime.interrupt();
         thKey.interrupt();
         n = 0; count = 30;
-    }
-    public static void main(String[] args) {
-        new TopGun("mjc");
     }
 }
