@@ -4,8 +4,8 @@ import java.sql.*;
 
 public class Jdbc {
     private Connection conn = null;
-    private PreparedStatement insertPstm = null;
     private PreparedStatement selectPstm = null;
+    private PreparedStatement insertPstm = null;
     private PreparedStatement updatePstm = null;
     private ResultSet rs = null;
     private String[] rank = new String[3];
@@ -37,24 +37,15 @@ public class Jdbc {
             System.out.println("가입 성공!");
     
         } catch (SQLException e) {
-            System.out.println("중복된 이름입니다!");
+            System.out.println("가입 실패!");
             System.err.println(e);
             return false;
         } 
-        finally {
+        finally{
             try {
-                if (rs != null) 
-                    rs.close();
-
                 if (insertPstm != null) 
                     insertPstm.close();
-                
-                if (selectPstm != null) 
-                    selectPstm.close();
-                
-                if (conn != null) 
-                    conn.close();
-            } 
+            }
             catch (SQLException e) {
                 e.printStackTrace();
             }
