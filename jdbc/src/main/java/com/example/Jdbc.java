@@ -11,8 +11,13 @@ public class Jdbc {
     private String[] rank = new String[3];
     private String url = "jdbc:mysql://user-info.cy5xlgs0kg5p.ap-northeast-2.rds.amazonaws.com:3306/user";
     
-    // 생성자 : db와 연결하는 커넥션 객체(conn) 생성
+    
     public Jdbc(){
+        connect();
+    }
+
+    // db와 연결하는 커넥션 객체(conn) 생성
+    private void connect(){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(url,"myUser","myUser");
@@ -29,6 +34,7 @@ public class Jdbc {
     
     // 회원가입 : 사용자의 입력 값(name)을 db의 name 컬럼에 저장
     public boolean join(String name){
+        connect();
         try {
             String sql = "insert into user(name) values (?)";
             insertPstm = conn.prepareStatement(sql);
@@ -41,20 +47,13 @@ public class Jdbc {
             System.err.println(e);
             return false;
         } 
-        finally{
-            try {
-                if (insertPstm != null) 
-                    insertPstm.close();
-            }
-            catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        disconnect();
         return true;
     }
 
     // 로그인 : 입력한 이름(name)이 db에 있는지 확인
     public boolean login(String name){
+        connect();
         try {
             conn = DriverManager.getConnection(url,"myUser","myUser");
             String sql = "select name from user where name=(?)";
@@ -74,12 +73,14 @@ public class Jdbc {
             System.err.println(e);
             return false;
         }
+        disconnect();
         return true;
     }
 
     // 게임 점수 저장
     public void saveGameScore(String gameName, int gameScore, String userName){
         int score;
+        connect();
         try{
             String sql = "select "+gameName+" from user where name=(?)";
             selectPstm = conn.prepareStatement(sql);
@@ -104,10 +105,12 @@ public class Jdbc {
             System.out.println("점수 기록 실패!");
             System.err.println(e);
         }
+        disconnect();
     }
 
     // 게임 랭킹 조회 : 결과는 String[]으로 리턴 -> 랭킹 페이지의 JLabel에 setText()로 기록
     public String[] gameRank(String gameName){
+        connect();
         try{
             String sql = "select name,"+gameName+" from user order by "+gameName+" desc";
             selectPstm = conn.prepareStatement(sql);
@@ -122,11 +125,12 @@ public class Jdbc {
             System.out.println("점수 조회 실패!");
             System.err.println(e);
         }
+        disconnect();
         return rank;
     }
 
     // 로그아웃 버튼 누르면 모든 객체 close
-    public boolean logout(){
+    public boolean disconnect(){
         try {
             if (rs != null) 
                 rs.close();

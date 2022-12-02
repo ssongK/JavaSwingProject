@@ -117,7 +117,7 @@ public class GameHome extends JFrame {
             //logout Listener() ------------------------------------
             btnLogout.addActionListener(new ActionListener() {
             	public void actionPerformed(ActionEvent e) {
-            		if(j.logout()==true) {
+            		if(j.disconnect()==true) {
             			U_name.setText("");
         				btnLogout.setVisible(false);
         				btnRank.setVisible(false);
@@ -152,8 +152,8 @@ public class GameHome extends JFrame {
             ImageIcon nomalGM3 = new ImageIcon("jdbc/src/main/java/com/image/topgun_black.png");
             ImageIcon rolloverGM3 = new ImageIcon("jdbc/src/main/java/com/image/topgun.png");
             
-            ImageIcon nomalGM4 = new ImageIcon("jdbc/classes/com/image/cargame_black.jpg");
-            ImageIcon rolloverGM4 = new ImageIcon("jdbc/classes/com/image/cargame.jpg");
+            ImageIcon nomalGM4 = new ImageIcon("jdbc/classes/com/image/cargame_black.png");
+            ImageIcon rolloverGM4 = new ImageIcon("jdbc/classes/com/image/cargame.png");
             
             btnGm1 = new JButton(nomalGM1);
             add(btnGm1);
