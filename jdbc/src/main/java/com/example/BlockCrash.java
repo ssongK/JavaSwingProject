@@ -578,7 +578,7 @@ class Game extends JPanel implements KeyListener, Runnable
                a=100;
                /* 점수기록 */
                Jdbc j = new Jdbc();
-               j.saveGameScore("game2", o.your_score, userName);
+               j.saveGameScore("game2", score, userName);
 
                G_Play.interrupt();
             }
